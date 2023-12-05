@@ -38,26 +38,8 @@ dags:
 logs:
   persistence:
     enabled: true
+    existingClaim: airflow-pvc
 
-logGroomerSidecar:
-    # Whether to deploy the Airflow worker log groomer sidecar.
-    enabled: true
-    # Command to use when running the Airflow worker log groomer sidecar (templated).
-    command: ~
-    # Args to use when running the Airflow worker log groomer sidecar (templated).
-    args: ["bash", "/clean-logs"]
-    # Number of days to retain logs
-    retentionDays: 1
-    resources: {}
-    #  limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    #  requests:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # Detailed default security context for logGroomerSidecar for container level
-    securityContexts:
-      container: {}
 
 flower:
   enabled: false
