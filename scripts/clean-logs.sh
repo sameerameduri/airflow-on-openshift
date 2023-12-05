@@ -5,7 +5,7 @@ readonly RETENTION="${AIRFLOW__LOG_RETENTION_DAYS:-1}"
 
 trap "exit" INT TERM
 
-readonly EVERY=$((1*60))
+readonly EVERY=$((2*60))
 
 echo "Cleaning logs every $EVERY seconds"
 
