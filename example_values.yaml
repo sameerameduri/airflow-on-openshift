@@ -41,10 +41,66 @@ dags:
     branch: main
     subPath: dags
 
+scheduler:
+    ## the number of scheduler Pods to run
+    replicas: 1
+
+    ## resource requests/limits for the scheduler Pods
+    ## [SPEC] https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
+    resources:
+      limits:
+        cpu: 2
+        memory: 2Gi
+      requests:
+        cpu: 2
+        memory: 2Gi
+
+   logCleanup:
+      enabled: false
+      retentionMinutes: 21600
+
+    ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/monitoring/scheduler-liveness-probe.md
+    livenessProbe:
+      enabled: true
+
+      ## configs for an additional check that ensures tasks are being created by the scheduler
+      ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/monitoring/scheduler-liveness-probe.md
+      taskCreationCheck:
+        enabled: false
+        thresholdSeconds: 300
+        schedulerAgeBeforeCheck: 180
+
+
+workers:
+    ## if the airflow workers StatefulSet should be deployed
+    enabled: true
+
+    ## the number of worker Pods to run
+    replicas: 2
+
+    ## resource requests/limits for the worker Pods
+    ## [SPEC] https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
+    resources:
+      limits:
+        cpu: 1
+        memory: 3Gi
+      requests:
+        cpu: 1
+        memory: 1Gi
+
+    ## configs for the log-cleanup sidecar of the worker Pods
+    ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/monitoring/log-cleanup.md
+    logCleanup:
+      enabled: false
+      retentionMinutes: 21600
+
 logs:
+  path: /opt/airflow/logs
   persistence:
     enabled: true
     existingClaim: airflow-pvc
+    accessMode: ReadWriteMany
+    subPath: airflow/logs
 
 
 flower:
