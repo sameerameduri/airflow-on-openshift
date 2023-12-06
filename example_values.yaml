@@ -7,7 +7,24 @@ fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
 webserverSecretKey: "ShouldNotBeInProduction"
 
 scheduler:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 2
+      memory: 2Gi
+    requests:
+      cpu: 2
+      memory: 2Gi
+
+workers:
   replicas: 2
+  resources:
+    limits:
+      cpu: 1
+      memory: 3Gi
+    requests:
+      cpu: 1
+      memory: 1Gi
 
 webserver:
   replicas: 2
@@ -40,26 +57,6 @@ dags:
     branch: main
     subPath: dags
 
-scheduler:
-  replicas: 1
-  resources:
-    limits:
-      cpu: 2
-      memory: 2Gi
-    requests:
-      cpu: 2
-      memory: 2Gi
-
-
-workers:
-  replicas: 2
-  resources:
-    limits:
-      cpu: 1
-      memory: 3Gi
-    requests:
-      cpu: 1
-      memory: 1Gi
 
 logs:
   persistence:
