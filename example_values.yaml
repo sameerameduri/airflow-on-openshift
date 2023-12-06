@@ -71,7 +71,6 @@ scheduler:
 
 
 workers:
-  enabled: true
   replicas: 2
   resources:
     limits:
@@ -80,9 +79,6 @@ workers:
     requests:
       cpu: 1
       memory: 1Gi
-  logCleanup:
-    enabled: false
-    retentionMinutes: 21600
 
 logs:
   persistence:
