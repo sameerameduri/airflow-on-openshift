@@ -60,8 +60,8 @@ dags:
 
 logs:
   persistence:
-    enabled: false
-    existingClaim: airflow-pvc
+    enabled: true
+    existingClaim: airflow-kepler-pvc
 
 
 flower:
