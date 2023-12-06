@@ -60,7 +60,7 @@ dags:
 
 logs:
   persistence:
-    enabled: true
+    enabled: false
     existingClaim: airflow-pvc
 
 
