@@ -50,12 +50,6 @@ scheduler:
     requests:
       cpu: 2
       memory: 2Gi
-  livenessProbe:
-    enabled: true
-    taskCreationCheck:
-      enabled: false
-      thresholdSeconds: 300
-      schedulerAgeBeforeCheck: 180
 
 
 workers:
