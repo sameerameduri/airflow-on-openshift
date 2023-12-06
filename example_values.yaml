@@ -21,21 +21,6 @@ triggerer:
   enabled: true
   # Number of airflow triggerers in the deployment
   replicas: 1
-  # Max number of old replicasets to retain
-  revisionHistoryLimit: ~
-
-  # Command to use when running Airflow triggerers (templated).
-  command: ~
-  # Args to use when running Airflow triggerer (templated).
-  args: ["bash", "-c", "exec airflow triggerer"]
-
-  # Update Strategy when triggerer is deployed as a StatefulSet
-  updateStrategy: ~
-  # Update Strategy when triggerer is deployed as a Deployment
-  strategy:
-    rollingUpdate:
-      maxSurge: "100%"
-      maxUnavailable: "50%"
 
 statsd:
   uid: null
