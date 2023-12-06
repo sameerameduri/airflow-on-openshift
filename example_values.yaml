@@ -19,7 +19,6 @@ webserver:
 # Airflow Triggerer Config
 triggerer:
   enabled: true
-  # Number of airflow triggerers in the deployment
   replicas: 1
 
 statsd:
