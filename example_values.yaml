@@ -71,35 +71,24 @@ scheduler:
 
 
 workers:
-    ## if the airflow workers StatefulSet should be deployed
-    enabled: true
-
-    ## the number of worker Pods to run
-    replicas: 2
-
-    ## resource requests/limits for the worker Pods
-    ## [SPEC] https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
-    resources:
-      limits:
-        cpu: 1
-        memory: 3Gi
-      requests:
-        cpu: 1
-        memory: 1Gi
-
-    ## configs for the log-cleanup sidecar of the worker Pods
-    ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/monitoring/log-cleanup.md
-    logCleanup:
-      enabled: false
-      retentionMinutes: 21600
+  enabled: true
+  replicas: 2
+  resources:
+    limits:
+      cpu: 1
+      memory: 3Gi
+    requests:
+      cpu: 1
+      memory: 1Gi
+  logCleanup:
+    enabled: false
+    retentionMinutes: 21600
 
 logs:
-  path: /opt/airflow/logs
   persistence:
     enabled: true
     existingClaim: airflow-pvc
     accessMode: ReadWriteMany
-    subPath: airflow/logs
 
 
 flower:
