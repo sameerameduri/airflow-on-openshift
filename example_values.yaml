@@ -53,9 +53,8 @@ scheduler:
         memory: 2Gi
       requests:
         cpu: 2
-        memory: 2Gi
-
-   logCleanup:
+        memory: 2Gi     
+    logCleanup:
       enabled: false
       retentionMinutes: 21600
 
