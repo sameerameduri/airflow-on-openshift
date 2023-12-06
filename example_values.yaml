@@ -6,6 +6,8 @@ airflow:
     webserverSecretKey: "ShouldNotBeInProduction"
     legacyCommands: false
     executor: CeleryExecutor
+    defaultAirflowRepository: apache/airflow
+    defaultAirflowTag: "2.7.0"
 
   scheduler:
     replicas: 1
