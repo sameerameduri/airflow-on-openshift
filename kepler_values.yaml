@@ -1,0 +1,94 @@
+
+airflow:
+  
+  airflow:
+    fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
+    webserverSecretKey: "ShouldNotBeInProduction"
+    legacyCommands: false
+    executor: CeleryExecutor
+
+   
+  scheduler:
+    replicas: 1
+    resources:
+      limits:
+        cpu: 2
+        memory: 2Gi
+      requests:
+        cpu: 2
+        memory: 2Gi
+    logCleanup:
+      enabled: true
+      retentionMinutes: 21600
+    livenessProbe:
+      enabled: true
+      taskCreationCheck:
+        enabled: false
+        thresholdSeconds: 300
+        schedulerAgeBeforeCheck: 180
+
+  workers:
+    enabled: true
+    replicas: 2
+    resources:
+      limits:
+        cpu: 1
+        memory: 3Gi
+      requests:
+        cpu: 1
+        memory: 1Gi
+    logCleanup:
+      enabled: true
+      retentionMinutes: 21600
+
+  
+  triggerer:
+    enabled: true
+    replicas: 1
+
+
+  
+  logs:
+    path: /opt/airflow/logs
+    persistence:
+      enabled: true
+      subPath: airflow/logs
+      existingClaim: airflow-pvc
+      accessMode: ReadWriteMany
+
+  
+  dags:
+    path: /opt/airflow/dags
+    gitSync:
+      enabled: true
+      repo: "https://github.com/sameerameduri/airflow-on-openshift"
+      branch: main
+      subPath: dags
+
+  
+  ingress:
+    enabled: false
+
+  
+  serviceAccount:
+    create: true
+    name: ""
+    annotations: {}
+  
+  
+  postgresql:
+    enabled: false
+
+
+  pgbouncer:
+  uid: null
+
+  redis:
+  uid: null
+
+
+  flower:
+    ## if the airflow flower UI should be deployed
+    ##
+    enabled: false
+
