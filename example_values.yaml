@@ -40,9 +40,6 @@ logs:
     enabled: true
     existingClaim: airflow-pvc
 
-logCleanup:
-      enabled: false
-      retentionMinutes: 21600
 
 triggerer:
     ## if the airflow triggerer should be deployed
