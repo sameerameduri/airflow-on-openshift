@@ -19,7 +19,7 @@ airflow:
         cpu: 2
         memory: 2Gi
     logCleanup:
-        enabled: true
+        enabled: false
         retentionMinutes: 5
     livenessProbe:
         enabled: true
@@ -39,7 +39,7 @@ airflow:
           cpu: 1
           memory: 1Gi
       logCleanup:
-        enabled: true
+        enabled: false
         retentionMinutes: 5
 
 
@@ -50,7 +50,7 @@ airflow:
 
   logs:
       persistence:
-        enabled: false
+        enabled: true
         existingClaim: airflow-pvc
 
   dags:
