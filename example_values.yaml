@@ -1,11 +1,9 @@
 
 airflow:
-  
-  
   fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
   webserverSecretKey: "ShouldNotBeInProduction"
   legacyCommands: false
-  executor: CeleryExecutor
+  executor: KubernetesExecutor
   defaultAirflowRepository: apache/airflow
   defaultAirflowTag: "2.7.0"
 

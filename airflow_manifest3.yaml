@@ -31,22 +31,6 @@ metadata:
     chart: "airflow-1.11.0"
     heritage: Helm
 ---
-# Source: airflow/templates/redis/redis-serviceaccount.yaml
-######################################
-## Airflow Redis ServiceAccount
-######################################
-apiVersion: v1
-kind: ServiceAccount
-automountServiceAccountToken: true
-metadata:
-  name: airflow-redis
-  labels:
-    tier: airflow
-    component: redis
-    release: airflow
-    chart: "airflow-1.11.0"
-    heritage: Helm
----
 # Source: airflow/templates/scheduler/scheduler-serviceaccount.yaml
 ################################
 ## Airflow Scheduler ServiceAccount
@@ -177,7 +161,7 @@ metadata:
     heritage: Helm
 type: Opaque
 data:
-  webserver-secret-key: "TlRRMmRFSTVVMGhzWlhWelRrVkZUa3N6TjNCdVNEWnBkbFkwYzJaeFpYST0="
+  webserver-secret-key: "U2hvdWxkTm90QmVJblByb2R1Y3Rpb24="
 ---
 # Source: airflow/templates/configmaps/configmap.yaml
 ################################
@@ -205,8 +189,8 @@ data:
     
     [core]
     colored_console_log = False
-    dags_folder = /opt/airflow/dags
-    executor = CeleryExecutor
+    dags_folder = /opt/airflow/dags/repo/dags
+    executor = KubernetesExecutor
     load_examples = False
     remote_logging = False
     
@@ -232,14 +216,14 @@ data:
     namespace = airflow
     pod_template_file = /opt/airflow/pod_templates/pod_template_file.yaml
     worker_container_repository = apache/airflow
-    worker_container_tag = 2.7.1
+    worker_container_tag = 2.7.0
     
     [kubernetes_executor]
     multi_namespace_mode = False
     namespace = airflow
     pod_template_file = /opt/airflow/pod_templates/pod_template_file.yaml
     worker_container_repository = apache/airflow
-    worker_container_tag = 2.7.1
+    worker_container_tag = 2.7.0
     
     [logging]
     colored_console_log = False
@@ -268,19 +252,134 @@ data:
     
   airflow_local_settings.py: |-
     
-    from airflow.www.utils import UIAlert
+  pod_template_file.yaml: |-
     
-    DASHBOARD_UIALERTS = [
-      UIAlert(
-        'Usage of a dynamic webserver secret key detected. We recommend a static webserver secret key instead.'
-        ' See the <a href='
-        '"https://airflow.apache.org/docs/helm-chart/stable/production-guide.html#webserver-secret-key">'
-        'Helm Chart Production Guide</a> for more details.',
-        category="warning",
-        roles=["Admin"],
-        html=True,
-      )
-    ]
+    ---
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: placeholder-name
+      labels:
+        tier: airflow
+        component: worker
+        release: airflow
+    spec:
+      initContainers:
+        
+        - name: git-sync-init
+          image: registry.k8s.io/git-sync/git-sync:v3.6.9
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 
+          env:
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_ROOT
+              value: "/git"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_WAIT
+              value: "5"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
+          resources: 
+              {}
+          volumeMounts:
+          - name: dags
+            mountPath: /git
+      containers:
+        - envFrom:      
+            []
+          env:
+            - name: AIRFLOW__CORE__EXECUTOR
+              value: LocalExecutor      
+            # Hard Coded Airflow Envs
+            - name: AIRFLOW__CORE__FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-fernet-key
+                  key: fernet-key
+            # For Airflow <2.3, backward compatibility; moved to [database] in 2.3
+            - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-metadata
+                  key: connection
+            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-metadata
+                  key: connection
+            - name: AIRFLOW_CONN_AIRFLOW_DB
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-metadata
+                  key: connection
+            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-webserver-secret-key
+                  key: webserver-secret-key      
+            # Dynamically created environment variables
+            # Dynamically created secret envs
+            
+            # Extra env      
+          image: apache/airflow:2.7.0
+          imagePullPolicy: IfNotPresent
+          securityContext: 
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          name: base
+          resources:
+            {}
+          volumeMounts:
+            - mountPath: "/opt/airflow/logs"
+              name: logs
+            - name: config
+              mountPath: "/opt/airflow/airflow.cfg"
+              subPath: airflow.cfg
+              readOnly: true
+            - name: config
+              mountPath: "/opt/airflow/config/airflow_local_settings.py"
+              subPath: airflow_local_settings.py
+              readOnly: true
+            - name: dags
+              mountPath: /opt/airflow/dags
+              readOnly: True
+      restartPolicy: Never
+      securityContext: 
+        runAsUser: 1000670000
+        fsGroup: 1000670000
+      nodeSelector:
+        {}
+      affinity:
+        {}
+      terminationGracePeriodSeconds: 600
+      tolerations:
+        []
+      topologySpreadConstraints:
+        []
+      serviceAccountName: airflow-worker
+      volumes:
+      - name: dags
+        emptyDir: {}
+      - emptyDir: {}
+        name: logs
+      - configMap:
+          name: airflow-config
+        name: config
 ---
 # Source: airflow/templates/configmaps/statsd-configmap.yaml
 ################################
@@ -483,6 +582,9 @@ roleRef:
   name: airflow-pod-launcher-role
 subjects:
   - kind: ServiceAccount
+    name: airflow-scheduler
+    namespace: "airflow"
+  - kind: ServiceAccount
     name: airflow-worker
     namespace: "airflow"
 ---
@@ -571,32 +673,6 @@ spec:
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/component: primary
 ---
-# Source: airflow/templates/redis/redis-service.yaml
-################################
-## Airflow Redis Service
-#################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: airflow-redis
-  labels:
-    tier: airflow
-    component: redis
-    release: airflow
-    chart: "airflow-1.11.0"
-    heritage: Helm
-spec:
-  type: ClusterIP
-  selector:
-    tier: airflow
-    component: redis
-    release: airflow
-  ports:
-    - name: redis-db
-      protocol: TCP
-      port: 6379
-      targetPort: 6379
----
 # Source: airflow/templates/statsd/statsd-service.yaml
 ################################
 ## Airflow StatsD Service
@@ -680,32 +756,6 @@ spec:
     - name: airflow-ui
       port: 8080
 ---
-# Source: airflow/templates/workers/worker-service.yaml
-################################
-## Airflow Worker Service
-#################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: airflow-worker
-  labels:
-    tier: airflow
-    component: worker
-    release: airflow
-    chart: "airflow-1.11.0"
-    heritage: Helm
-spec:
-  clusterIP: None
-  selector:
-    tier: airflow
-    component: worker
-    release: airflow
-  ports:
-    - name: worker-logs
-      protocol: TCP
-      port: 8793
-      targetPort: 8793
----
 # Source: airflow/templates/scheduler/scheduler-deployment.yaml
 ################################
 ## Airflow Scheduler Deployment/StatefulSet
@@ -727,9 +777,9 @@ metadata:
     release: airflow
     chart: "airflow-1.11.0"
     heritage: Helm
-    executor: CeleryExecutor
+    executor: KubernetesExecutor
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       tier: airflow
@@ -745,7 +795,7 @@ spec:
         checksum/metadata-secret: 1527346545415bf13f4c9ad69470086eb90d854f2b83594d78ec1badb5e13eb0
         checksum/result-backend-secret: 98a68f230007cfa8f5d3792e1aff843a76b0686409e4a46ab2f092f6865a1b71
         checksum/pgbouncer-config-secret: 1dae2adc757473469686d37449d076b0c82404f61413b58ae68b3c5e99527688
-        checksum/airflow-config: 2bb0efc29b918ce453fdfc4eaa785e4c824f3f3b8284164228bbe9f76812a650
+        checksum/airflow-config: 217f756cedb5caf74fb02ba3aa31b37b8a3477c2533452003a7040279d04aed7
         checksum/extra-configmaps: e862ea47e13e634cf17d476323784fa27dac20015550c230953b526182f5cac8
         checksum/extra-secrets: e9582fdd622296c976cbc10a5ba7d6702c28a24fe80795ea5b84ba443a56c827
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -775,7 +825,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -801,6 +851,7 @@ spec:
           env:          
             # Dynamically created environment variables
             # Dynamically created secret envs
+            
             # Extra env          
             # Hard Coded Airflow Envs
             - name: AIRFLOW__CORE__FERNET_KEY
@@ -829,15 +880,42 @@ spec:
                 secretKeyRef:
                   name: airflow-webserver-secret-key
                   key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection
+        
+        - name: git-sync-init
+          image: registry.k8s.io/git-sync/git-sync:v3.6.9
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 
+          env:
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_ROOT
+              value: "/git"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_WAIT
+              value: "5"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
+          resources: 
+              {}
+          volumeMounts:
+          - name: dags
+            mountPath: /git
       containers:
         # Always run the main scheduler container.
         - name: scheduler
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -853,6 +931,7 @@ spec:
           env:          
             # Dynamically created environment variables
             # Dynamically created secret envs
+            
             # Extra env          
             # Hard Coded Airflow Envs
             - name: AIRFLOW__CORE__FERNET_KEY
@@ -880,12 +959,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: airflow-webserver-secret-key
-                  key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection          
+                  key: webserver-secret-key          
           livenessProbe:
             initialDelaySeconds: 10
             timeoutSeconds: 20
@@ -926,10 +1000,42 @@ spec:
               mountPath: "/opt/airflow/config/airflow_local_settings.py"
               subPath: airflow_local_settings.py
               readOnly: true
+            - name: dags
+              mountPath: /opt/airflow/dags
+              readOnly: True        
+        - name: git-sync
+          image: registry.k8s.io/git-sync/git-sync:v3.6.9
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 
+          env:
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_ROOT
+              value: "/git"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_WAIT
+              value: "5"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+          resources: 
+              {}
+          volumeMounts:
+          - name: dags
+            mountPath: /git
         - name: scheduler-log-groomer
           resources:
             {}
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -949,6 +1055,8 @@ spec:
         - name: config
           configMap:
             name: airflow-config
+        - name: dags
+          emptyDir: {}
         - name: logs
           emptyDir: {}
 ---
@@ -990,7 +1098,7 @@ spec:
         []
       serviceAccountName: airflow-statsd
       securityContext: 
-        runAsUser: 65534
+        runAsUser: 
       restartPolicy: Always
       containers:
         - name: statsd
@@ -1049,7 +1157,7 @@ metadata:
     chart: "airflow-1.11.0"
     heritage: Helm
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     # Here we define the rolling update strategy
     # - maxSurge define how many pod we can add at a time
@@ -1076,8 +1184,8 @@ spec:
       annotations:
         checksum/metadata-secret: 1527346545415bf13f4c9ad69470086eb90d854f2b83594d78ec1badb5e13eb0
         checksum/pgbouncer-config-secret: 1dae2adc757473469686d37449d076b0c82404f61413b58ae68b3c5e99527688
-        checksum/webserver-secret-key: afb5545e18ded4da793e7c47cbbb4f0a3210bf0b49a805d868cffce318711f60
-        checksum/airflow-config: 2bb0efc29b918ce453fdfc4eaa785e4c824f3f3b8284164228bbe9f76812a650
+        checksum/webserver-secret-key: 4bd5f3a269b30efddbae4967aca8502a279b22bada9c3617fc29c3eb351901e5
+        checksum/airflow-config: 217f756cedb5caf74fb02ba3aa31b37b8a3477c2533452003a7040279d04aed7
         checksum/webserver-config: 2f3fdfd294a37094d2abee43b2b09888a5c195ee03414996bf99a4681658af94
         checksum/extra-configmaps: e862ea47e13e634cf17d476323784fa27dac20015550c230953b526182f5cac8
         checksum/extra-secrets: e9582fdd622296c976cbc10a5ba7d6702c28a24fe80795ea5b84ba443a56c827
@@ -1106,7 +1214,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1132,6 +1240,7 @@ spec:
           env:          
             # Dynamically created environment variables
             # Dynamically created secret envs
+            
             # Extra env          
             # Hard Coded Airflow Envs
             - name: AIRFLOW__CORE__FERNET_KEY
@@ -1160,14 +1269,9 @@ spec:
                 secretKeyRef:
                   name: airflow-webserver-secret-key
                   key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection
       containers:
         - name: webserver
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1201,7 +1305,7 @@ spec:
               path: /health
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             timeoutSeconds: 5
             failureThreshold: 5
             periodSeconds: 10
@@ -1210,7 +1314,7 @@ spec:
               path: /health
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 15
+            initialDelaySeconds: 45
             timeoutSeconds: 5
             failureThreshold: 5
             periodSeconds: 10
@@ -1227,6 +1331,7 @@ spec:
           env:          
             # Dynamically created environment variables
             # Dynamically created secret envs
+            
             # Extra env          
             # Hard Coded Airflow Envs
             - name: AIRFLOW__CORE__FERNET_KEY
@@ -1254,12 +1359,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: airflow-webserver-secret-key
-                  key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection          
+                  key: webserver-secret-key          
       volumes:
         - name: config
           configMap:
@@ -1315,24 +1415,12 @@ spec:
               weight: 1
         nodeAffinity:
           
-      securityContext:
-        fsGroup: 1001
       hostNetwork: false
       hostIPC: false
       containers:
         - name: postgresql
           image: docker.io/bitnami/postgresql:11
           imagePullPolicy: "IfNotPresent"
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            runAsGroup: 0
-            runAsNonRoot: true
-            runAsUser: 1001
-            seccompProfile:
-              type: RuntimeDefault
           env:
             - name: BITNAMI_DEBUG
               value: "false"
@@ -1425,81 +1513,6 @@ spec:
           requests:
             storage: "8Gi"
 ---
-# Source: airflow/templates/redis/redis-statefulset.yaml
-################################
-## Airflow Redis StatefulSet
-#################################
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: airflow-redis
-  labels:
-    tier: airflow
-    component: redis
-    release: airflow
-    chart: "airflow-1.11.0"
-    heritage: Helm
-spec:
-  serviceName: airflow-redis
-  selector:
-    matchLabels:
-      tier: airflow
-      component: redis
-      release: airflow
-  template:
-    metadata:
-      labels:
-        tier: airflow
-        component: redis
-        release: airflow
-      annotations:
-        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-    spec:
-      nodeSelector:
-        {}
-      affinity:
-        {}
-      tolerations:
-        []
-      topologySpreadConstraints:
-        []
-      serviceAccountName: airflow-redis
-      securityContext: 
-        runAsUser: 1000670000
-      containers:
-        - name: redis
-          image: redis:7-bullseye
-          imagePullPolicy: IfNotPresent
-          securityContext: 
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-          command: ["/bin/sh"]
-          resources:
-            {}
-          args: ["-c", "redis-server --requirepass ${REDIS_PASSWORD}"]
-          ports:
-            - name: redis-db
-              containerPort: 6379
-          volumeMounts:
-            - name: redis-db
-              mountPath: /data
-          env:
-            - name: REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-redis-password
-                  key: password
-  volumeClaimTemplates:
-    - metadata:
-        name: redis-db
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 1Gi
----
 # Source: airflow/templates/triggerer/triggerer-deployment.yaml
 ################################
 ## Airflow Triggerer Deployment
@@ -1531,7 +1544,7 @@ spec:
       annotations:
         checksum/metadata-secret: 1527346545415bf13f4c9ad69470086eb90d854f2b83594d78ec1badb5e13eb0
         checksum/pgbouncer-config-secret: 1dae2adc757473469686d37449d076b0c82404f61413b58ae68b3c5e99527688
-        checksum/airflow-config: 2bb0efc29b918ce453fdfc4eaa785e4c824f3f3b8284164228bbe9f76812a650
+        checksum/airflow-config: 217f756cedb5caf74fb02ba3aa31b37b8a3477c2533452003a7040279d04aed7
         checksum/extra-configmaps: e862ea47e13e634cf17d476323784fa27dac20015550c230953b526182f5cac8
         checksum/extra-secrets: e9582fdd622296c976cbc10a5ba7d6702c28a24fe80795ea5b84ba443a56c827
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -1561,7 +1574,7 @@ spec:
         - name: wait-for-airflow-migrations
           resources:
             {}
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1587,6 +1600,7 @@ spec:
           env:          
             # Dynamically created environment variables
             # Dynamically created secret envs
+            
             # Extra env          
             # Hard Coded Airflow Envs
             - name: AIRFLOW__CORE__FERNET_KEY
@@ -1615,14 +1629,41 @@ spec:
                 secretKeyRef:
                   name: airflow-webserver-secret-key
                   key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection
+        
+        - name: git-sync-init
+          image: registry.k8s.io/git-sync/git-sync:v3.6.9
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 
+          env:
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_ROOT
+              value: "/git"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_WAIT
+              value: "5"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
+          resources: 
+              {}
+          volumeMounts:
+          - name: dags
+            mountPath: /git
       containers:
         - name: triggerer
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1646,11 +1687,15 @@ spec:
               mountPath: "/opt/airflow/config/airflow_local_settings.py"
               subPath: airflow_local_settings.py
               readOnly: true
+            - name: dags
+              mountPath: /opt/airflow/dags
+              readOnly: True
           envFrom:          
             []
           env:          
             # Dynamically created environment variables
             # Dynamically created secret envs
+            
             # Extra env          
             # Hard Coded Airflow Envs
             - name: AIRFLOW__CORE__FERNET_KEY
@@ -1679,11 +1724,6 @@ spec:
                 secretKeyRef:
                   name: airflow-webserver-secret-key
                   key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection
           
           livenessProbe:
             initialDelaySeconds: 10
@@ -1700,10 +1740,40 @@ spec:
           ports:
             - name: triggerer-logs
               containerPort: 8794
+        
+        - name: git-sync
+          image: registry.k8s.io/git-sync/git-sync:v3.6.9
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 
+          env:
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_ROOT
+              value: "/git"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_WAIT
+              value: "5"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+          resources: 
+              {}
+          volumeMounts:
+          - name: dags
+            mountPath: /git
         - name: triggerer-log-groomer
           resources:
             {}
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -1723,243 +1793,8 @@ spec:
         - name: config
           configMap:
             name: airflow-config
-  volumeClaimTemplates:
-    - metadata:
-        name: logs
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 100Gi
----
-# Source: airflow/templates/workers/worker-deployment.yaml
-################################
-## Airflow Worker Deployment
-#################################
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: airflow-worker
-  labels:
-    tier: airflow
-    component: worker
-    release: airflow
-    chart: "airflow-1.11.0"
-    heritage: Helm
-spec:
-  serviceName: airflow-worker
-  replicas: 1
-  selector:
-    matchLabels:
-      tier: airflow
-      component: worker
-      release: airflow
-  template:
-    metadata:
-      labels:
-        tier: airflow
-        component: worker
-        release: airflow
-      annotations:
-        checksum/metadata-secret: 1527346545415bf13f4c9ad69470086eb90d854f2b83594d78ec1badb5e13eb0
-        checksum/result-backend-secret: 98a68f230007cfa8f5d3792e1aff843a76b0686409e4a46ab2f092f6865a1b71
-        checksum/pgbouncer-config-secret: 1dae2adc757473469686d37449d076b0c82404f61413b58ae68b3c5e99527688
-        checksum/webserver-secret-key: 16f17ff680a3a445ca91603497d163bbe56e45ff46125e6e0d6a702f9ce5ef96
-        checksum/kerberos-keytab: 80979996aa3c1f48c95dfbe9bb27191e71f12442a08c0ed834413da9d430fd0e
-        checksum/airflow-config: 2bb0efc29b918ce453fdfc4eaa785e4c824f3f3b8284164228bbe9f76812a650
-        checksum/extra-configmaps: e862ea47e13e634cf17d476323784fa27dac20015550c230953b526182f5cac8
-        checksum/extra-secrets: e9582fdd622296c976cbc10a5ba7d6702c28a24fe80795ea5b84ba443a56c827
-        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-    spec:
-      nodeSelector:
-        {}
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  component: worker
-              topologyKey: kubernetes.io/hostname
-            weight: 100
-      tolerations:
-        []
-      topologySpreadConstraints:
-        []
-      terminationGracePeriodSeconds: 600
-      restartPolicy: Always
-      serviceAccountName: airflow-worker
-      securityContext: 
-        runAsUser: 1000670000
-        fsGroup: 1000670000
-      initContainers:
-        - name: wait-for-airflow-migrations
-          resources:
-            {}
-          image: apache/airflow:2.7.1
-          imagePullPolicy: IfNotPresent
-          securityContext: 
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-          volumeMounts:
-            - name: config
-              mountPath: "/opt/airflow/airflow.cfg"
-              subPath: airflow.cfg
-              readOnly: true
-            - name: config
-              mountPath: "/opt/airflow/config/airflow_local_settings.py"
-              subPath: airflow_local_settings.py
-              readOnly: true
-          args:          
-            - airflow
-            - db
-            - check-migrations
-            - --migration-wait-timeout=60
-          envFrom:          
-            []
-          env:          
-            # Dynamically created environment variables
-            # Dynamically created secret envs
-            # Extra env          
-            # Hard Coded Airflow Envs
-            - name: AIRFLOW__CORE__FERNET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-fernet-key
-                  key: fernet-key
-            # For Airflow <2.3, backward compatibility; moved to [database] in 2.3
-            - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-metadata
-                  key: connection
-            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-metadata
-                  key: connection
-            - name: AIRFLOW_CONN_AIRFLOW_DB
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-metadata
-                  key: connection
-            - name: AIRFLOW__WEBSERVER__SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-webserver-secret-key
-                  key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection
-      containers:
-        - name: worker
-          image: apache/airflow:2.7.1
-          imagePullPolicy: IfNotPresent
-          securityContext: 
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-          args: 
-            - bash
-            - -c
-            - |-
-              exec \
-              airflow celery worker
-          resources:
-            {}
-          livenessProbe:
-            initialDelaySeconds: 10
-            timeoutSeconds: 20
-            failureThreshold: 5
-            periodSeconds: 60
-            exec:
-              command:
-                - sh
-                - -c
-                - CONNECTION_CHECK_MAX_COUNT=0 exec /entrypoint python -m celery --app airflow.providers.celery.executors.celery_executor.app inspect ping -d celery@$(hostname)
-          ports:
-            - name: worker-logs
-              containerPort: 8793
-          volumeMounts:
-            - name: logs
-              mountPath: "/opt/airflow/logs"
-            - name: config
-              mountPath: "/opt/airflow/airflow.cfg"
-              subPath: airflow.cfg
-              readOnly: true
-            - name: config
-              mountPath: "/opt/airflow/config/airflow_local_settings.py"
-              subPath: airflow_local_settings.py
-              readOnly: true
-          envFrom:          
-            []
-          env:
-            # Only signal the main process, not the process group, to make Warm Shutdown work properly
-            - name: DUMB_INIT_SETSID
-              value: "0"          
-            # Dynamically created environment variables
-            # Dynamically created secret envs
-            # Extra env          
-            # Hard Coded Airflow Envs
-            - name: AIRFLOW__CORE__FERNET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-fernet-key
-                  key: fernet-key
-            # For Airflow <2.3, backward compatibility; moved to [database] in 2.3
-            - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-metadata
-                  key: connection
-            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-metadata
-                  key: connection
-            - name: AIRFLOW_CONN_AIRFLOW_DB
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-metadata
-                  key: connection
-            - name: AIRFLOW__WEBSERVER__SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-webserver-secret-key
-                  key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection          
-        - name: worker-log-groomer
-          image: apache/airflow:2.7.1
-          imagePullPolicy: IfNotPresent
-          securityContext: 
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-          args: 
-            - bash
-            - /clean-logs
-          env:
-            - name: AIRFLOW__LOG_RETENTION_DAYS
-              value: "15"
-          resources:
-            {}
-          volumeMounts:
-            - name: logs
-              mountPath: "/opt/airflow/logs"
-      volumes:
-        - name: config
-          configMap:
-            name: airflow-config
+        - name: dags
+          emptyDir: {}
   volumeClaimTemplates:
     - metadata:
         name: logs
@@ -2089,6 +1924,21 @@ spec:
 ## Airflow Redis NetworkPolicy
 #################################
 ---
+# Source: airflow/templates/redis/redis-service.yaml
+################################
+## Airflow Redis Service
+#################################
+---
+# Source: airflow/templates/redis/redis-serviceaccount.yaml
+######################################
+## Airflow Redis ServiceAccount
+######################################
+---
+# Source: airflow/templates/redis/redis-statefulset.yaml
+################################
+## Airflow Redis StatefulSet
+#################################
+---
 # Source: airflow/templates/resourcequota.yaml
 ################################
 ## Airflow Namespace ResourceQuota
@@ -2184,6 +2034,11 @@ spec:
 ## Airflow Webserver PodDisruptionBudget
 #################################
 ---
+# Source: airflow/templates/workers/worker-deployment.yaml
+################################
+## Airflow Worker Deployment
+#################################
+---
 # Source: airflow/templates/workers/worker-kedaautoscaler.yaml
 ################################
 ## Airflow Worker KEDA Scaler
@@ -2192,6 +2047,11 @@ spec:
 # Source: airflow/templates/workers/worker-networkpolicy.yaml
 ################################
 ## Airflow Worker NetworkPolicy
+#################################
+---
+# Source: airflow/templates/workers/worker-service.yaml
+################################
+## Airflow Worker Service
 #################################
 ---
 # Source: airflow/templates/secrets/fernetkey-secret.yaml
@@ -2213,7 +2073,7 @@ metadata:
     "helm.sh/hook-weight": "0"
 type: Opaque
 data:
-  fernet-key: "WkdaSWJHWnpVa2hxY0RCclFVdFlSbTFWYlVKbVRYbE9jMU5zVVZoUlMxYz0="
+  fernet-key: "N1Q1MTJVWFNTbUJPa3BXaW1GSElWYjhqSzZsZm1TQXZ4NG1PNkFyZWhuYz0="
 ---
 # Source: airflow/templates/secrets/redis-secrets.yaml
 # We will create these secrets (if necessary) _even if_ we aren't
@@ -2243,7 +2103,7 @@ metadata:
     "helm.sh/hook-weight": "0"
 type: Opaque
 data:
-  password: "ZG9yZVRHNUU1cg=="
+  password: "cUxDdjJpSUthVQ=="
 ---
 # Source: airflow/templates/secrets/redis-secrets.yaml
 ##################################
@@ -2265,7 +2125,7 @@ metadata:
     "helm.sh/hook-weight": "0"
 type: Opaque
 data:
-  connection: "cmVkaXM6Ly86ZG9yZVRHNUU1ckBhaXJmbG93LXJlZGlzOjYzNzkvMA=="
+  connection: "cmVkaXM6Ly86cUxDdjJpSUthVUBhaXJmbG93LXJlZGlzOjYzNzkvMA=="
 ---
 # Source: airflow/templates/jobs/create-user-job.yaml
 ################################
@@ -2309,7 +2169,7 @@ spec:
       serviceAccountName: airflow-create-user-job
       containers:
         - name: create-user
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2340,6 +2200,7 @@ spec:
           env:          
             # Dynamically created environment variables
             # Dynamically created secret envs
+            
             # Extra env          
             # Hard Coded Airflow Envs
             - name: AIRFLOW__CORE__FERNET_KEY
@@ -2367,12 +2228,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: airflow-webserver-secret-key
-                  key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection          
+                  key: webserver-secret-key          
           resources:
             {}
           volumeMounts:
@@ -2431,7 +2287,7 @@ spec:
       serviceAccountName: airflow-migrate-database-job
       containers:
         - name: run-airflow-migrations
-          image: apache/airflow:2.7.1
+          image: apache/airflow:2.7.0
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: false
@@ -2449,6 +2305,7 @@ spec:
           env:          
             # Dynamically created environment variables
             # Dynamically created secret envs
+            
             # Extra env
             - name: PYTHONUNBUFFERED
               value: "1"          
@@ -2479,11 +2336,6 @@ spec:
                 secretKeyRef:
                   name: airflow-webserver-secret-key
                   key: webserver-secret-key
-            - name: AIRFLOW__CELERY__BROKER_URL
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-broker-url
-                  key: connection
           resources:
             {}
           volumeMounts:
