@@ -51,7 +51,7 @@ airflow:
   logs:
     path: /opt/airflow/logs
     persistence:
-      enabled: true
+      enabled: false
       subPath: airflow/logs
       existingClaim: airflow-pvc
       accessMode: ReadWriteMany

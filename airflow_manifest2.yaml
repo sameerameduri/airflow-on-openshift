@@ -132,7 +132,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: airflow-postgresql
-  namespace: "airflow"
+  namespace: "airflow-logs"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -158,7 +158,7 @@ metadata:
     heritage: Helm
 type: Opaque
 data:
-  connection: "cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBvc3RncmVzQGFpcmZsb3ctcG9zdGdyZXNxbC5haXJmbG93OjU0MzIvcG9zdGdyZXM/c3NsbW9kZT1kaXNhYmxl"
+  connection: "cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBvc3RncmVzQGFpcmZsb3ctcG9zdGdyZXNxbC5haXJmbG93LWxvZ3M6NTQzMi9wb3N0Z3Jlcz9zc2xtb2RlPWRpc2FibGU="
 ---
 # Source: airflow/templates/secrets/webserver-secret-key-secret.yaml
 ############################################
@@ -177,7 +177,7 @@ metadata:
     heritage: Helm
 type: Opaque
 data:
-  webserver-secret-key: "YlhsS1JUZzNOV05SWlZoVlpYaFBZMlpQYUc1SGVYVjFkbnB0YTBWYVUwcz0="
+  webserver-secret-key: "ZFV4cGNXVlpkVkJ1YlZJNFFXbE5UbmxsUTBzMVZucFBhV05yTlhZM1JUST0="
 ---
 # Source: airflow/templates/configmaps/configmap.yaml
 ################################
@@ -229,14 +229,14 @@ data:
     airflow_configmap = airflow-config
     airflow_local_settings_configmap = airflow-config
     multi_namespace_mode = False
-    namespace = airflow
+    namespace = airflow-logs
     pod_template_file = /opt/airflow/pod_templates/pod_template_file.yaml
     worker_container_repository = apache/airflow
     worker_container_tag = 2.7.1
     
     [kubernetes_executor]
     multi_namespace_mode = False
-    namespace = airflow
+    namespace = airflow-logs
     pod_template_file = /opt/airflow/pod_templates/pod_template_file.yaml
     worker_container_repository = apache/airflow
     worker_container_tag = 2.7.1
@@ -394,7 +394,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: airflow-pod-launcher-role
-  namespace: "airflow"
+  namespace: "airflow-logs"
   labels:
     tier: airflow
     release: airflow
@@ -440,7 +440,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: airflow-pod-log-reader-role
-  namespace: "airflow"
+  namespace: "airflow-logs"
   labels:
     tier: airflow
     release: airflow
@@ -470,7 +470,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  namespace: "airflow"
+  namespace: "airflow-logs"
   name: airflow-pod-launcher-rolebinding
   labels:
     tier: airflow
@@ -484,7 +484,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: airflow-worker
-    namespace: "airflow"
+    namespace: "airflow-logs"
 ---
 # Source: airflow/templates/rbac/pod-log-reader-rolebinding.yaml
 ################################
@@ -493,7 +493,7 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  namespace: "airflow"
+  namespace: "airflow-logs"
   name: airflow-pod-log-reader-rolebinding
   labels:
     tier: airflow
@@ -507,17 +507,17 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: airflow-webserver
-    namespace: "airflow"
+    namespace: "airflow-logs"
   - kind: ServiceAccount
     name: airflow-triggerer
-    namespace: "airflow"
+    namespace: "airflow-logs"
 ---
 # Source: airflow/charts/postgresql/templates/primary/svc-headless.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: airflow-postgresql-hl
-  namespace: "airflow"
+  namespace: "airflow-logs"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -551,7 +551,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: airflow-postgresql
-  namespace: "airflow"
+  namespace: "airflow-logs"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -742,10 +742,10 @@ spec:
         component: scheduler
         release: airflow
       annotations:
-        checksum/metadata-secret: 1527346545415bf13f4c9ad69470086eb90d854f2b83594d78ec1badb5e13eb0
+        checksum/metadata-secret: 890c565e60eb05bfb07e33f6d0d224ac810a890cfc8a41379d898231fa035b57
         checksum/result-backend-secret: 98a68f230007cfa8f5d3792e1aff843a76b0686409e4a46ab2f092f6865a1b71
         checksum/pgbouncer-config-secret: 1dae2adc757473469686d37449d076b0c82404f61413b58ae68b3c5e99527688
-        checksum/airflow-config: 2bb0efc29b918ce453fdfc4eaa785e4c824f3f3b8284164228bbe9f76812a650
+        checksum/airflow-config: b47b67b73a3fe0e5dbbfd377b4390b78378c7f85b6e01eb296875dba3089b86e
         checksum/extra-configmaps: e862ea47e13e634cf17d476323784fa27dac20015550c230953b526182f5cac8
         checksum/extra-secrets: e9582fdd622296c976cbc10a5ba7d6702c28a24fe80795ea5b84ba443a56c827
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -1074,10 +1074,10 @@ spec:
         component: webserver
         release: airflow
       annotations:
-        checksum/metadata-secret: 1527346545415bf13f4c9ad69470086eb90d854f2b83594d78ec1badb5e13eb0
+        checksum/metadata-secret: 890c565e60eb05bfb07e33f6d0d224ac810a890cfc8a41379d898231fa035b57
         checksum/pgbouncer-config-secret: 1dae2adc757473469686d37449d076b0c82404f61413b58ae68b3c5e99527688
-        checksum/webserver-secret-key: 90f8b926a438ea8758cb4cd15f56f92c717551241740d7ebe7e5fd7065002a16
-        checksum/airflow-config: 2bb0efc29b918ce453fdfc4eaa785e4c824f3f3b8284164228bbe9f76812a650
+        checksum/webserver-secret-key: 5058d868b4b4237df36af553e035251cf1b562e5646b1047c4c5a6b60ebc5609
+        checksum/airflow-config: b47b67b73a3fe0e5dbbfd377b4390b78378c7f85b6e01eb296875dba3089b86e
         checksum/webserver-config: 2f3fdfd294a37094d2abee43b2b09888a5c195ee03414996bf99a4681658af94
         checksum/extra-configmaps: e862ea47e13e634cf17d476323784fa27dac20015550c230953b526182f5cac8
         checksum/extra-secrets: e9582fdd622296c976cbc10a5ba7d6702c28a24fe80795ea5b84ba443a56c827
@@ -1270,7 +1270,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: airflow-postgresql
-  namespace: "airflow"
+  namespace: "airflow-logs"
   labels:
     app.kubernetes.io/instance: airflow
     app.kubernetes.io/managed-by: Helm
@@ -1529,9 +1529,9 @@ spec:
         component: triggerer
         release: airflow
       annotations:
-        checksum/metadata-secret: 1527346545415bf13f4c9ad69470086eb90d854f2b83594d78ec1badb5e13eb0
+        checksum/metadata-secret: 890c565e60eb05bfb07e33f6d0d224ac810a890cfc8a41379d898231fa035b57
         checksum/pgbouncer-config-secret: 1dae2adc757473469686d37449d076b0c82404f61413b58ae68b3c5e99527688
-        checksum/airflow-config: 2bb0efc29b918ce453fdfc4eaa785e4c824f3f3b8284164228bbe9f76812a650
+        checksum/airflow-config: b47b67b73a3fe0e5dbbfd377b4390b78378c7f85b6e01eb296875dba3089b86e
         checksum/extra-configmaps: e862ea47e13e634cf17d476323784fa27dac20015550c230953b526182f5cac8
         checksum/extra-secrets: e9582fdd622296c976cbc10a5ba7d6702c28a24fe80795ea5b84ba443a56c827
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -1761,12 +1761,12 @@ spec:
         component: worker
         release: airflow
       annotations:
-        checksum/metadata-secret: 1527346545415bf13f4c9ad69470086eb90d854f2b83594d78ec1badb5e13eb0
+        checksum/metadata-secret: 890c565e60eb05bfb07e33f6d0d224ac810a890cfc8a41379d898231fa035b57
         checksum/result-backend-secret: 98a68f230007cfa8f5d3792e1aff843a76b0686409e4a46ab2f092f6865a1b71
         checksum/pgbouncer-config-secret: 1dae2adc757473469686d37449d076b0c82404f61413b58ae68b3c5e99527688
-        checksum/webserver-secret-key: ff4104e58f495ce082a59211ca1524dbbbfa2d43579cfc32aa3293373a839026
+        checksum/webserver-secret-key: 3cef59381d7d378ab81128080819bb8f90103e0112e5c1eb1a157236c9cc0b47
         checksum/kerberos-keytab: 80979996aa3c1f48c95dfbe9bb27191e71f12442a08c0ed834413da9d430fd0e
-        checksum/airflow-config: 2bb0efc29b918ce453fdfc4eaa785e4c824f3f3b8284164228bbe9f76812a650
+        checksum/airflow-config: b47b67b73a3fe0e5dbbfd377b4390b78378c7f85b6e01eb296875dba3089b86e
         checksum/extra-configmaps: e862ea47e13e634cf17d476323784fa27dac20015550c230953b526182f5cac8
         checksum/extra-secrets: e9582fdd622296c976cbc10a5ba7d6702c28a24fe80795ea5b84ba443a56c827
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -2213,7 +2213,7 @@ metadata:
     "helm.sh/hook-weight": "0"
 type: Opaque
 data:
-  fernet-key: "YURObk5uQnpZVU41UXpoSWQyVmlUMWMwTTFnMGQwWnRVMUpPTUhOQk5WVT0="
+  fernet-key: "ZDFsWk1IVjZjVFZZWVVzd1RrNDRTMkZoU25scmIxTnVjM05IY0ZKSVoxRT0="
 ---
 # Source: airflow/templates/secrets/redis-secrets.yaml
 # We will create these secrets (if necessary) _even if_ we aren't
@@ -2243,7 +2243,7 @@ metadata:
     "helm.sh/hook-weight": "0"
 type: Opaque
 data:
-  password: "bDZoelBPUmJaOA=="
+  password: "bzN1V0dWakdwbA=="
 ---
 # Source: airflow/templates/secrets/redis-secrets.yaml
 ##################################
@@ -2265,7 +2265,7 @@ metadata:
     "helm.sh/hook-weight": "0"
 type: Opaque
 data:
-  connection: "cmVkaXM6Ly86bDZoelBPUmJaOEBhaXJmbG93LXJlZGlzOjYzNzkvMA=="
+  connection: "cmVkaXM6Ly86bzN1V0dWakdwbEBhaXJmbG93LXJlZGlzOjYzNzkvMA=="
 ---
 # Source: airflow/templates/jobs/create-user-job.yaml
 ################################
