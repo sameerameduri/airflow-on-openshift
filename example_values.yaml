@@ -17,7 +17,7 @@ airflow:
         memory: 2Gi
     logCleanup:
       enabled: true
-      retentionMinutes: 21600
+      retentionMinutes: 2
     livenessProbe:
       enabled: true
       taskCreationCheck:
@@ -37,7 +37,7 @@ airflow:
         memory: 1Gi
     logCleanup:
       enabled: true
-      retentionMinutes: 21600
+      retentionMinutes: 2
 
 
   webserver:
