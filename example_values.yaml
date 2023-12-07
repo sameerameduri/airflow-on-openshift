@@ -1,13 +1,13 @@
 
 airflow:
   
-  airflow:
-    fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
-    webserverSecretKey: "ShouldNotBeInProduction"
-    legacyCommands: false
-    executor: CeleryExecutor
-    defaultAirflowRepository: apache/airflow
-    defaultAirflowTag: "2.7.0"
+  
+  fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
+  webserverSecretKey: "ShouldNotBeInProduction"
+  legacyCommands: false
+  executor: CeleryExecutor
+  defaultAirflowRepository: apache/airflow
+  defaultAirflowTag: "2.7.0"
 
   scheduler:
     replicas: 1
