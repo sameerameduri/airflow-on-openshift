@@ -1,84 +1,79 @@
 
-airflow:
-  fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
-  webserverSecretKey: "ShouldNotBeInProduction"
-  legacyCommands: false
-  executor: KubernetesExecutor
-  defaultAirflowRepository: apache/airflow
-  defaultAirflowTag: "2.7.0"
+defaultAirflowRepository: apache/airflow
+defaultAirflowTag: "2.7.0"
 
-  scheduler:
-    replicas: 1
-    resources:
-      limits:
-        cpu: 2
-        memory: 2Gi
-      requests:
-        cpu: 2
-        memory: 2Gi
-    logCleanup:
-        enabled: false
-        retentionMinutes: 5
-    livenessProbe:
-        enabled: true
-        taskCreationCheck:
-          enabled: false
-          thresholdSeconds: 300
-          schedulerAgeBeforeCheck: 180
+executor: KubernetesExecutor
+fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
+webserverSecretKey: "ShouldNotBeInProduction"
 
-  workers:
-      enabled: true
-      replicas: 2
-      resources:
-        limits:
-          cpu: 1
-          memory: 3Gi
-        requests:
-          cpu: 1
-          memory: 1Gi
-      logCleanup:
-        enabled: false
-        retentionMinutes: 5
+scheduler:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 2
+      memory: 2Gi
+    requests:
+      cpu: 2
+      memory: 2Gi
 
+workers:
+  replicas: 2
+  resources:
+    limits:
+      cpu: 1
+      memory: 3Gi
+    requests:
+      cpu: 1
+      memory: 1Gi
 
-  # Airflow Triggerer Config
-  triggerer:
-    enabled: true
-    replicas: 1
+webserver:
+  replicas: 2
+  readinessProbe:
+    initialDelaySeconds: 45
+  livenessProbe:
+    initialDelaySeconds: 60
 
-  logs:
-      persistence:
-        enabled: true
-        existingClaim: airflow-pvc
+# Airflow Triggerer Config
+triggerer:
+  enabled: true
+  replicas: 1
 
-  dags:
-      path: /opt/airflow/dags
-      gitSync:
-        enabled: true
-        repo: "https://github.com/sameerameduri/airflow-on-openshift"
-        branch: main
-        subPath: dags
+statsd:
+  uid: null
 
-  statsd:
-    uid: null
+pgbouncer:
+  uid: null
 
-  pgbouncer:
-    uid: null
+redis:
+  uid: null
 
-  redis:
-    uid: null
-
-
-  flower:
+dags:
+  persistence:
     enabled: false
+  gitSync:
+    uid: null
+    enabled: true
+    repo: https://github.com/sameerameduri/airflow-on-openshift
+    branch: main
+    subPath: dags
+
+
+logs:
+  persistence:
+    enabled: true
+    existingClaim: airflow-pvc
+
+
+flower:
+  enabled: false
 
 # ingress:
 #   web:
 #     enabled: true
 
-  postgresql:
-    primary:
-      podSecurityContext:
-        enabled: false
-      containerSecurityContext:
-        enabled: false
+postgresql:
+  primary:
+    podSecurityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false
