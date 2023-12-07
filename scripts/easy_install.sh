@@ -57,7 +57,7 @@ helm_install(){
       --set uid=${CHART_UID} \
       --set gid=${CHART_GID} \
       --set redis.securityContext.runAsUser=${CHART_UID} \
-      --values ./example_values.yaml
+      --values ./values.yaml
 }
 
 setup_routes(){
