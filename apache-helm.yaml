@@ -289,19 +289,15 @@ postgresql:
   ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/database/embedded-database.md
   ## [WARNING] the embedded Postgres is NOT SUITABLE for production deployments of Airflow
   ## [WARNING] consider using an external database with `externalDatabase.*`
-  enabled: true
+  primary:
+    podSecurityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false
   securityContext: 
-    fsGroup: 1000720000
-    runAsUser: 1000720000
-    runAsGroup: 1000720000
-  uid: 1000720000
-  gid: 1000720000
-
-  ## configs for the PVC of postgresql
-  persistence:
-    enabled: true
-    storageClass: ""
-    size: 8Gi
+    fsGroup: 1000690000
+    runAsUser: 1000690000
+    runAsGroup: 1000690000
 
 ###################################
 ## DATABASE | External Database
