@@ -78,7 +78,18 @@ airflow:
     fsGroup: 1000720000
   securityContext: 
     fsGroup: 1000720000
+  dbMigrations:
+      ## if the db-migrations Deployment/Job is created
+      ## - [WARNING] if `false`, you have to MANUALLY run `airflow db upgrade` when required
+      ##
+      enabled: true
 
+      ## if a post-install helm Job should be used (instead of a Deployment)
+      ## - [WARNING] setting `true` will NOT work with the helm `--wait` flag,
+      ##   this is because post-install helm Jobs run AFTER the main resources become Ready,
+      ##   which will cause a deadlock, as other resources require db-migrations to become Ready
+      ##
+      runAsJob: false
 ###################################
 ## COMPONENT | Airflow Scheduler
 ###################################
