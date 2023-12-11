@@ -5,8 +5,8 @@ airflow:
     tag: 2.6.3-python3.9
     pullPolicy: IfNotPresent
     pullSecret: ""
-    uid: 50000
-    gid: 0
+    uid: 1000670000
+    gid: 1000670000
 
   executor: CeleryExecutor
   fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
