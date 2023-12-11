@@ -102,7 +102,7 @@ data:
   AIRFLOW__CORE__DAGS_FOLDER: "L29wdC9haXJmbG93L2RhZ3MvcmVwby8="
   AIRFLOW__CORE__EXECUTOR: "Q2VsZXJ5RXhlY3V0b3I="
   AIRFLOW__CORE__FERNET_KEY: "N1Q1MTJVWFNTbUJPa3BXaW1GSElWYjhqSzZsZm1TQXZ4NG1PNkFyZWhuYz0="
-  AIRFLOW__WEBSERVER__SECRET_KEY: "VEhJUyBJUyBVTlNBRkUh"
+  AIRFLOW__WEBSERVER__SECRET_KEY: "U2hvdWxkTm90QmVJblByb2R1Y3Rpb24="
   AIRFLOW__WEBSERVER__WEB_SERVER_PORT: "ODA4MA=="
   AIRFLOW__CELERY__FLOWER_PORT: "NTU1NQ=="
   ## refresh the dags folder at the same frequency as git-sync
@@ -544,7 +544,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
+        checksum/secret-config-envs: 097d645fbe3647ed7484bbf4ee715e2c21aaffb0b509835cc7c76ac395089f30
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/db-migrations-script: 37898f38b90abd06081105d992362ec9e0d0015123b69e758e59031a9e6ddfc9
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -792,7 +792,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
+        checksum/secret-config-envs: 097d645fbe3647ed7484bbf4ee715e2c21aaffb0b509835cc7c76ac395089f30
         checksum/secret-pgbouncer: 439c44f5b68093835613bfa3d4307b312ad32dab2344232d03951893132ff9fc
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -920,7 +920,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
+        checksum/secret-config-envs: 097d645fbe3647ed7484bbf4ee715e2c21aaffb0b509835cc7c76ac395089f30
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -1253,7 +1253,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
+        checksum/secret-config-envs: 097d645fbe3647ed7484bbf4ee715e2c21aaffb0b509835cc7c76ac395089f30
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/sync-users-script: 9733d90da42fbc9e6b1e60df36e22c87aa7c1114a86eb96bb2eae03de9a3b046
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -1540,7 +1540,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
+        checksum/secret-config-envs: 097d645fbe3647ed7484bbf4ee715e2c21aaffb0b509835cc7c76ac395089f30
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -1868,7 +1868,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
+        checksum/secret-config-envs: 097d645fbe3647ed7484bbf4ee715e2c21aaffb0b509835cc7c76ac395089f30
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/config-webserver-config: 08f3293f0aaa3978bcbcae61eee58760bcba270cf691c5ff9c788d678ba8d579
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -2305,7 +2305,7 @@ spec:
         image: "docker.io/bitnami/redis:5.0.14-debian-10-r173"
         imagePullPolicy: "IfNotPresent"
         securityContext:
-          runAsUser: 1000670000
+          runAsUser: 1000690000
         command:
         - /bin/bash
         - -c
@@ -2415,7 +2415,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
+        checksum/secret-config-envs: 097d645fbe3647ed7484bbf4ee715e2c21aaffb0b509835cc7c76ac395089f30
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
