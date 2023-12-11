@@ -261,11 +261,11 @@ extraManifests: []
 pgbouncer:
   ## if the pgbouncer Deployment is created
   ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/database/pgbouncer.md
-  enabled: true
-
-  ## resource requests/limits for the pgbouncer Pods
-  ## [SPEC] https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
-  resources: {}
+  enabled: false
+  securityContext: 
+    fsGroup: 1000720000
+    runAsUser: 1000720000
+    runAsGroup: 1000720000
 
   ## sets pgbouncer config: `auth_type`
   authType: md5
@@ -281,6 +281,8 @@ postgresql:
   enabled: true
   securityContext: 
     fsGroup: 1000720000
+    runAsUser: 1000720000
+    runAsGroup: 1000720000
   uid: 1000720000
   gid: 1000720000
 
@@ -306,6 +308,10 @@ redis:
   ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/database/embedded-redis.md
   ## [WARNING] consider using an external database with `externalDatabase.*`
   enabled: true
+  securityContext: 
+    fsGroup: 1000720000
+    runAsUser: 1000720000
+    runAsGroup: 1000720000
 
   ## configs for redis cluster mode
   cluster:
@@ -335,6 +341,7 @@ redis:
       enabled: false
       storageClass: ""
       size: 8Gi
+  
 
 ###################################
 ## DATABASE | External Redis
