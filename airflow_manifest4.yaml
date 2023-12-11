@@ -59,7 +59,7 @@ data:
   ## Database Configs
   ## ================
   ## database host/port
-  DATABASE_HOST: "YWlyZmxvdy1wZ2JvdW5jZXIuYWlyZmxvdy1kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2Fs"
+  DATABASE_HOST: "YWlyZmxvdy1wZ2JvdW5jZXIuYWlyZmxvdy1sb2dzLnN2Yy5jbHVzdGVyLmxvY2Fs"
   DATABASE_PORT: "NjQzMg=="
 
   ## database configs
@@ -85,7 +85,7 @@ data:
   ## Redis Configs
   ## ================
   ## connection string components
-  REDIS_HOST: "YWlyZmxvdy1yZWRpcy1tYXN0ZXIuYWlyZmxvdy1kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2Fs"
+  REDIS_HOST: "YWlyZmxvdy1yZWRpcy1tYXN0ZXIuYWlyZmxvdy1sb2dzLnN2Yy5jbHVzdGVyLmxvY2Fs"
   REDIS_PORT: "NjM3OQ=="
   REDIS_DBNUM: "MQ=="
 
@@ -102,7 +102,7 @@ data:
   AIRFLOW__CORE__DAGS_FOLDER: "L29wdC9haXJmbG93L2RhZ3MvcmVwby8="
   AIRFLOW__CORE__EXECUTOR: "Q2VsZXJ5RXhlY3V0b3I="
   AIRFLOW__CORE__FERNET_KEY: "N1Q1MTJVWFNTbUJPa3BXaW1GSElWYjhqSzZsZm1TQXZ4NG1PNkFyZWhuYz0="
-  AIRFLOW__WEBSERVER__SECRET_KEY: "U2hvdWxkTm90QmVJblByb2R1Y3Rpb24="
+  AIRFLOW__WEBSERVER__SECRET_KEY: "VEhJUyBJUyBVTlNBRkUh"
   AIRFLOW__WEBSERVER__WEB_SERVER_PORT: "ODA4MA=="
   AIRFLOW__CELERY__FLOWER_PORT: "NTU1NQ=="
   ## refresh the dags folder at the same frequency as git-sync
@@ -183,7 +183,7 @@ metadata:
     release: airflow
     heritage: Helm
 data:
-  pgbouncer.ini: "CltkYXRhYmFzZXNdCiogPSBob3N0PWFpcmZsb3ctcG9zdGdyZXNxbC5haXJmbG93LWRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwgcG9ydD01NDMyCgpbcGdib3VuY2VyXQpwb29sX21vZGUgPSB0cmFuc2FjdGlvbgptYXhfY2xpZW50X2Nvbm4gPSAxMDAwCmRlZmF1bHRfcG9vbF9zaXplID0gIDIwCmlnbm9yZV9zdGFydHVwX3BhcmFtZXRlcnMgPSBleHRyYV9mbG9hdF9kaWdpdHMKCmxpc3Rlbl9wb3J0ID0gNjQzMgpsaXN0ZW5fYWRkciA9ICoKCmF1dGhfdHlwZSA9IG1kNQphdXRoX2ZpbGUgPSAvaG9tZS9wZ2JvdW5jZXIvdXNlcnMudHh0Cgpsb2dfZGlzY29ubmVjdGlvbnMgPSAwCmxvZ19jb25uZWN0aW9ucyA9IDAKCiMgbG9ja3Mgd2lsbCBuZXZlciBiZSByZWxlYXNlZCB3aGVuIGBwb29sX21vZGU9dHJhbnNhY3Rpb25gIChhaXJmbG93IGluaXRkYi91cGdyYWRlZGIgc2NyaXB0cyBjcmVhdGUgbG9ja3MpCnNlcnZlcl9yZXNldF9xdWVyeSA9IFNFTEVDVCBwZ19hZHZpc29yeV91bmxvY2tfYWxsKCkKc2VydmVyX3Jlc2V0X3F1ZXJ5X2Fsd2F5cyA9IDEKCiMjIENMSUVOVCBUTFMgU0VUVElOR1MgIyMKY2xpZW50X3Rsc19zc2xtb2RlID0gcHJlZmVyCmNsaWVudF90bHNfY2lwaGVycyA9IG5vcm1hbApjbGllbnRfdGxzX2tleV9maWxlID0gL2hvbWUvcGdib3VuY2VyL2dlbmVyYXRlZC1jZXJ0cy9jbGllbnQua2V5CmNsaWVudF90bHNfY2VydF9maWxlID0gL2hvbWUvcGdib3VuY2VyL2dlbmVyYXRlZC1jZXJ0cy9jbGllbnQuY3J0CgojIyBTRVJWRVIgVExTIFNFVFRJTkdTICMjCnNlcnZlcl90bHNfc3NsbW9kZSA9IHByZWZlcgpzZXJ2ZXJfdGxzX2NpcGhlcnMgPSBub3JtYWw="
+  pgbouncer.ini: "CltkYXRhYmFzZXNdCiogPSBob3N0PWFpcmZsb3ctcG9zdGdyZXNxbC5haXJmbG93LWxvZ3Muc3ZjLmNsdXN0ZXIubG9jYWwgcG9ydD01NDMyCgpbcGdib3VuY2VyXQpwb29sX21vZGUgPSB0cmFuc2FjdGlvbgptYXhfY2xpZW50X2Nvbm4gPSAxMDAwCmRlZmF1bHRfcG9vbF9zaXplID0gIDIwCmlnbm9yZV9zdGFydHVwX3BhcmFtZXRlcnMgPSBleHRyYV9mbG9hdF9kaWdpdHMKCmxpc3Rlbl9wb3J0ID0gNjQzMgpsaXN0ZW5fYWRkciA9ICoKCmF1dGhfdHlwZSA9IG1kNQphdXRoX2ZpbGUgPSAvaG9tZS9wZ2JvdW5jZXIvdXNlcnMudHh0Cgpsb2dfZGlzY29ubmVjdGlvbnMgPSAwCmxvZ19jb25uZWN0aW9ucyA9IDAKCiMgbG9ja3Mgd2lsbCBuZXZlciBiZSByZWxlYXNlZCB3aGVuIGBwb29sX21vZGU9dHJhbnNhY3Rpb25gIChhaXJmbG93IGluaXRkYi91cGdyYWRlZGIgc2NyaXB0cyBjcmVhdGUgbG9ja3MpCnNlcnZlcl9yZXNldF9xdWVyeSA9IFNFTEVDVCBwZ19hZHZpc29yeV91bmxvY2tfYWxsKCkKc2VydmVyX3Jlc2V0X3F1ZXJ5X2Fsd2F5cyA9IDEKCiMjIENMSUVOVCBUTFMgU0VUVElOR1MgIyMKY2xpZW50X3Rsc19zc2xtb2RlID0gcHJlZmVyCmNsaWVudF90bHNfY2lwaGVycyA9IG5vcm1hbApjbGllbnRfdGxzX2tleV9maWxlID0gL2hvbWUvcGdib3VuY2VyL2dlbmVyYXRlZC1jZXJ0cy9jbGllbnQua2V5CmNsaWVudF90bHNfY2VydF9maWxlID0gL2hvbWUvcGdib3VuY2VyL2dlbmVyYXRlZC1jZXJ0cy9jbGllbnQuY3J0CgojIyBTRVJWRVIgVExTIFNFVFRJTkdTICMjCnNlcnZlcl90bHNfc3NsbW9kZSA9IHByZWZlcgpzZXJ2ZXJfdGxzX2NpcGhlcnMgPSBub3JtYWw="
   gen_auth_file.sh: "CiMhL2Jpbi9zaCAtZQoKIyBERVNDUklQVElPTjoKIyAtIHVwZGF0ZXMgdGhlIHBnYm91bmNlciBgYXV0aF9maWxlYCBmcm9tIGVudmlyb25tZW50IHZhcmlhYmxlcwojIC0gY2FsbGVkIGluIG1haW4gcGdib3VuY2VyIGNvbnRhaW5lciBzdGFydC1jb21tYW5kIHNvIHRoYXQgYGF1dGhfZmlsZWAgaXMgdXBkYXRlZCBlYWNoIHJlc3RhcnQsCiMgICBmb3IgZXhhbXBsZSwgd2hlbiB0aGUgbGl2ZW5lc3NQcm9iZSBmYWlscyBkdWUgdG8gYSBEQVRBQkFTRV9QQVNTV09SRCBzZWNyZXQgdXBkYXRlCgojIHZhcmlhYmxlcyB0byBpbmNyZWFzZSBjbGFyaXR5IG9mIHBhdHRlcm4gbWF0Y2hpbmcKT05FX1FVT1RFPSciJwpUV09fUVVPVEU9JyIiJwoKIyBwZ2JvdW5jZXIgcmVxdWlyZXMgYCJgIHRvIGJlIGVzY2FwZWQgYXMgYCIiYApFU0NBUEVEX0RBVEFCQVNFX1VTRVI9IiR7REFUQUJBU0VfVVNFUi8kT05FX1FVT1RFLyRUV09fUVVPVEV9IgpFU0NBUEVEX0RBVEFCQVNFX1BBU1NXT1JEPSIke0RBVEFCQVNFX1BBU1NXT1JELyRPTkVfUVVPVEUvJFRXT19RVU9URX0iCgojIHBnYm91bmNlciByZXF1aXJlcyBhdXRoX2ZpbGUgaW4gZm9ybWF0IGAibXktdXNlcm5hbWUiICJteS1wYXNzd29yZCJgCmVjaG8gXCIkRVNDQVBFRF9EQVRBQkFTRV9VU0VSXCIgXCIkRVNDQVBFRF9EQVRBQkFTRV9QQVNTV09SRFwiID4gL2hvbWUvcGdib3VuY2VyL3VzZXJzLnR4dAplY2hvICJTdWNjZXNzZnVsbHkgZ2VuZXJhdGVkIGF1dGhfZmlsZTogL2hvbWUvcGdib3VuY2VyL3VzZXJzLnR4dCI="
   gen_self_signed_cert.sh: "CiMhL2Jpbi9zaCAtZQoKQ0VSVF9ESVI9Ii9ob21lL3BnYm91bmNlci9nZW5lcmF0ZWQtY2VydHMiCktFWV9GSUxFPSIkQ0VSVF9ESVIvY2xpZW50LmtleSIKQ0VSVF9GSUxFPSIkQ0VSVF9ESVIvY2xpZW50LmNydCIKCiMgY3JlYXRlIHRoZSBkaXJlY3RvcnkgZm9yIHRoZSBzZWxmLXNpZ25lZCBjZXJ0aWZpY2F0ZQpta2RpciAtcCAiJENFUlRfRElSIgoKIyB2YXJpYWJsZXMgZm9yIGNlcnRpZmljYXRlIGdlbmVyYXRpb24KQ09NTU9OX05BTUU9ImxvY2FsaG9zdCIKREFZU19WQUxJRD0zNjUKCiMgZ2VuZXJhdGUgdGhlIHNlbGYtc2lnbmVkIGNlcnRpZmljYXRlIGFuZCBhIHByaXZhdGUga2V5Cm9wZW5zc2wgcmVxIC14NTA5IFwKICAtbmV3a2V5IHJzYTo0MDk2IFwKICAta2V5b3V0ICIkS0VZX0ZJTEUiIFwKICAtb3V0ICIkQ0VSVF9GSUxFIiBcCiAgLWRheXMgIiREQVlTX1ZBTElEIiBcCiAgLXN1YmogIi9DTj0kQ09NTU9OX05BTUUiIFwKICAtbm9kZXMKCiMgc2V0IHBlcm1pc3Npb25zIGZvciB0aGUgcHJpdmF0ZSBrZXkgZmlsZQpjaG1vZCA2MDAgIiRLRVlfRklMRSIKCmVjaG8gIlN1Y2Nlc3NmdWxseSBnZW5lcmF0ZWQgc2VsZi1zaWduZWQgY2VydGlmaWNhdGU6ICRDRVJUX0ZJTEUiCmVjaG8gIlN1Y2Nlc3NmdWxseSBnZW5lcmF0ZWQgc2VsZi1zaWduZWQgY2VydGlmaWNhdGUga2V5OiAkS0VZX0ZJTEUi"
 ---
@@ -365,7 +365,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: airflow
-  namespace: airflow-default
+  namespace: airflow-logs
 ---
 # Source: airflow/charts/postgresql/templates/svc-headless.yaml
 apiVersion: v1
@@ -544,7 +544,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: ee2b2401cba5388fb8c58ef59b755eb6d144a58b1c7a94bc0a4265a5a8415c41
+        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/db-migrations-script: 37898f38b90abd06081105d992362ec9e0d0015123b69e758e59031a9e6ddfc9
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -657,6 +657,7 @@ spec:
               mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
+              subPath: 
       containers:
         - name: db-migrations          
           image: apache/airflow:2.6.3-python3.9
@@ -697,6 +698,7 @@ spec:
               mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
+              subPath: 
             - name: scripts
               mountPath: /mnt/scripts
               readOnly: true
@@ -758,7 +760,8 @@ spec:
         - name: dags-data
           emptyDir: {}
         - name: logs-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: airflow-pvc
         - name: scripts
           secret:
             secretName: airflow-db-migrations
@@ -789,8 +792,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: ee2b2401cba5388fb8c58ef59b755eb6d144a58b1c7a94bc0a4265a5a8415c41
-        checksum/secret-pgbouncer: 142f35e42ba1147e507435b50f4a889cd53918e8571bb3e8809baba31347ed85
+        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
+        checksum/secret-pgbouncer: 439c44f5b68093835613bfa3d4307b312ad32dab2344232d03951893132ff9fc
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
         app: airflow
@@ -917,7 +920,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: ee2b2401cba5388fb8c58ef59b755eb6d144a58b1c7a94bc0a4265a5a8415c41
+        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -1027,7 +1030,8 @@ spec:
             - name: dags-data
               mountPath: /opt/airflow/dags
             - name: logs-data
-              mountPath: /opt/airflow/logs        
+              mountPath: /opt/airflow/logs
+              subPath:         
         - name: wait-for-db-migrations  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
@@ -1065,6 +1069,7 @@ spec:
               mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
+              subPath: 
       containers:
         - name: airflow-scheduler          
           image: apache/airflow:2.6.3-python3.9
@@ -1162,7 +1167,8 @@ spec:
             - name: dags-data
               mountPath: /opt/airflow/dags
             - name: logs-data
-              mountPath: /opt/airflow/logs        
+              mountPath: /opt/airflow/logs
+              subPath:         
         - name: dags-git-sync
           image: registry.k8s.io/git-sync/git-sync:v3.6.5
           imagePullPolicy: IfNotPresent
@@ -1215,87 +1221,13 @@ spec:
               value: "0"
           volumeMounts:
             - name: dags-data
-              mountPath: /dags        
-        - name: log-cleanup  
-          image: apache/airflow:2.6.3-python3.9
-          imagePullPolicy: IfNotPresent
-          securityContext:
-            runAsUser: 50000
-            runAsGroup: 0
-          resources:
-            {}
-          envFrom:    
-            - secretRef:
-                name: airflow-config-envs
-          env:
-            - name: LOG_PATH
-              value: "/opt/airflow/logs"
-            - name: RETENTION_MINUTES
-              value: "2"
-            - name: INTERVAL_SECONDS
-              value: "900"    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
-            - name: REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-redis
-                  key: redis-password
-            - name: CONNECTION_CHECK_MAX_COUNT
-              value: "0"
-          command:    
-            - "/usr/bin/dumb-init"
-            - "--"
-            - "/entrypoint"
-          args:
-            - "bash"
-            - "-c"
-            - |
-              set -euo pipefail
-        
-              # break the infinite loop when we receive SIGINT or SIGTERM
-              trap "exit 0" SIGINT SIGTERM
-        
-              while true; do
-                START_EPOCH=$(date --utc +%s)
-                echo "[$(date --utc +%FT%T.%3N)] deleting log files older than $RETENTION_MINUTES minutes..."
-        
-                # delete all writable files ending in ".log" with modified-time older than $RETENTION_MINUTES
-                # NOTE: `-printf "."` prints a "." for each deleted file, which we count the bytes of with `wc -c`
-                DELETED_COUNT=$(
-                  find "$LOG_PATH" \
-                    -type f \
-                    -name "*.log" \
-                    -mmin +"$RETENTION_MINUTES" \
-                    -writable \
-                    -delete \
-                    -printf "." \
-                  | wc -c
-                )
-        
-                END_EPOCH=$(date --utc +%s)
-                LOOP_DURATION=$((END_EPOCH - START_EPOCH))
-                echo "[$(date --utc +%FT%T.%3N)] deleted $DELETED_COUNT files in $LOOP_DURATION seconds"
-        
-                SECONDS_TO_SLEEP=$((INTERVAL_SECONDS - LOOP_DURATION))
-                if (( SECONDS_TO_SLEEP > 0 )); then
-                  echo "[$(date --utc +%FT%T.%3N)] waiting $SECONDS_TO_SLEEP seconds..."
-                  sleep $SECONDS_TO_SLEEP
-                fi
-              done
-          volumeMounts:
-            - name: logs-data
-              mountPath: /opt/airflow/logs
+              mountPath: /dags
       volumes:        
         - name: dags-data
           emptyDir: {}
         - name: logs-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: airflow-pvc
 ---
 # Source: airflow/templates/sync/sync-users-deployment.yaml
 apiVersion: apps/v1
@@ -1321,7 +1253,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: ee2b2401cba5388fb8c58ef59b755eb6d144a58b1c7a94bc0a4265a5a8415c41
+        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/sync-users-script: 9733d90da42fbc9e6b1e60df36e22c87aa7c1114a86eb96bb2eae03de9a3b046
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -1433,7 +1365,8 @@ spec:
             - name: dags-data
               mountPath: /opt/airflow/dags
             - name: logs-data
-              mountPath: /opt/airflow/logs        
+              mountPath: /opt/airflow/logs
+              subPath:         
         - name: wait-for-db-migrations  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
@@ -1471,6 +1404,7 @@ spec:
               mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
+              subPath: 
       containers:
         - name: sync-airflow-users          
           image: apache/airflow:2.6.3-python3.9
@@ -1511,6 +1445,7 @@ spec:
               mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
+              subPath: 
             - name: scripts
               mountPath: /mnt/scripts
               readOnly: true
@@ -1572,7 +1507,8 @@ spec:
         - name: dags-data
           emptyDir: {}
         - name: logs-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: airflow-pvc
         - name: scripts
           secret:
             secretName: airflow-sync-users
@@ -1604,7 +1540,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: ee2b2401cba5388fb8c58ef59b755eb6d144a58b1c7a94bc0a4265a5a8415c41
+        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -1714,7 +1650,8 @@ spec:
             - name: dags-data
               mountPath: /opt/airflow/dags
             - name: logs-data
-              mountPath: /opt/airflow/logs        
+              mountPath: /opt/airflow/logs
+              subPath:         
         - name: wait-for-db-migrations  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
@@ -1752,6 +1689,7 @@ spec:
               mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
+              subPath: 
       containers:
         - name: airflow-triggerer          
           image: apache/airflow:2.6.3-python3.9
@@ -1841,7 +1779,8 @@ spec:
             - name: dags-data
               mountPath: /opt/airflow/dags
             - name: logs-data
-              mountPath: /opt/airflow/logs        
+              mountPath: /opt/airflow/logs
+              subPath:         
         - name: dags-git-sync
           image: registry.k8s.io/git-sync/git-sync:v3.6.5
           imagePullPolicy: IfNotPresent
@@ -1899,7 +1838,8 @@ spec:
         - name: dags-data
           emptyDir: {}
         - name: logs-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: airflow-pvc
 ---
 # Source: airflow/templates/webserver/webserver-deployment.yaml
 apiVersion: apps/v1
@@ -1928,7 +1868,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: ee2b2401cba5388fb8c58ef59b755eb6d144a58b1c7a94bc0a4265a5a8415c41
+        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/config-webserver-config: 08f3293f0aaa3978bcbcae61eee58760bcba270cf691c5ff9c788d678ba8d579
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -2039,7 +1979,8 @@ spec:
             - name: dags-data
               mountPath: /opt/airflow/dags
             - name: logs-data
-              mountPath: /opt/airflow/logs        
+              mountPath: /opt/airflow/logs
+              subPath:         
         - name: wait-for-db-migrations  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
@@ -2077,6 +2018,7 @@ spec:
               mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
+              subPath: 
       containers:
         - name: airflow-web          
           image: apache/airflow:2.6.3-python3.9
@@ -2139,6 +2081,7 @@ spec:
               mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
+              subPath: 
             - name: webserver-config
               mountPath: /opt/airflow/webserver_config.py
               subPath: webserver_config.py
@@ -2200,7 +2143,8 @@ spec:
         - name: dags-data
           emptyDir: {}
         - name: logs-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: airflow-pvc
         - name: webserver-config
           secret:
             secretName: airflow-webserver-config
@@ -2471,7 +2415,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: ee2b2401cba5388fb8c58ef59b755eb6d144a58b1c7a94bc0a4265a5a8415c41
+        checksum/secret-config-envs: b9671cab85ed5305169bb5860e23696877f8c8c6f4c53d66fe6edc2d35d0cb5b
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -2582,7 +2526,8 @@ spec:
             - name: dags-data
               mountPath: /opt/airflow/dags
             - name: logs-data
-              mountPath: /opt/airflow/logs        
+              mountPath: /opt/airflow/logs
+              subPath:         
         - name: wait-for-db-migrations  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
@@ -2620,6 +2565,7 @@ spec:
               mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
+              subPath: 
       containers:
         - name: airflow-worker          
           image: apache/airflow:2.6.3-python3.9
@@ -2709,7 +2655,8 @@ spec:
             - name: dags-data
               mountPath: /opt/airflow/dags
             - name: logs-data
-              mountPath: /opt/airflow/logs        
+              mountPath: /opt/airflow/logs
+              subPath:         
         - name: dags-git-sync
           image: registry.k8s.io/git-sync/git-sync:v3.6.5
           imagePullPolicy: IfNotPresent
@@ -2762,84 +2709,10 @@ spec:
               value: "0"
           volumeMounts:
             - name: dags-data
-              mountPath: /dags        
-        - name: log-cleanup  
-          image: apache/airflow:2.6.3-python3.9
-          imagePullPolicy: IfNotPresent
-          securityContext:
-            runAsUser: 50000
-            runAsGroup: 0
-          resources:
-            {}
-          envFrom:    
-            - secretRef:
-                name: airflow-config-envs
-          env:
-            - name: LOG_PATH
-              value: "/opt/airflow/logs"
-            - name: RETENTION_MINUTES
-              value: "2"
-            - name: INTERVAL_SECONDS
-              value: "900"    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
-            - name: REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-redis
-                  key: redis-password
-            - name: CONNECTION_CHECK_MAX_COUNT
-              value: "0"
-          command:    
-            - "/usr/bin/dumb-init"
-            - "--"
-            - "/entrypoint"
-          args:
-            - "bash"
-            - "-c"
-            - |
-              set -euo pipefail
-        
-              # break the infinite loop when we receive SIGINT or SIGTERM
-              trap "exit 0" SIGINT SIGTERM
-        
-              while true; do
-                START_EPOCH=$(date --utc +%s)
-                echo "[$(date --utc +%FT%T.%3N)] deleting log files older than $RETENTION_MINUTES minutes..."
-        
-                # delete all writable files ending in ".log" with modified-time older than $RETENTION_MINUTES
-                # NOTE: `-printf "."` prints a "." for each deleted file, which we count the bytes of with `wc -c`
-                DELETED_COUNT=$(
-                  find "$LOG_PATH" \
-                    -type f \
-                    -name "*.log" \
-                    -mmin +"$RETENTION_MINUTES" \
-                    -writable \
-                    -delete \
-                    -printf "." \
-                  | wc -c
-                )
-        
-                END_EPOCH=$(date --utc +%s)
-                LOOP_DURATION=$((END_EPOCH - START_EPOCH))
-                echo "[$(date --utc +%FT%T.%3N)] deleted $DELETED_COUNT files in $LOOP_DURATION seconds"
-        
-                SECONDS_TO_SLEEP=$((INTERVAL_SECONDS - LOOP_DURATION))
-                if (( SECONDS_TO_SLEEP > 0 )); then
-                  echo "[$(date --utc +%FT%T.%3N)] waiting $SECONDS_TO_SLEEP seconds..."
-                  sleep $SECONDS_TO_SLEEP
-                fi
-              done
-          volumeMounts:
-            - name: logs-data
-              mountPath: /opt/airflow/logs
+              mountPath: /dags
       volumes:        
         - name: dags-data
           emptyDir: {}
         - name: logs-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: airflow-pvc

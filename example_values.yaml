@@ -1,7 +1,54 @@
 airflow:
+  legacyCommands: false
+  image:
+    repository: apache/airflow
+    tag: 2.6.3-python3.9
+    pullPolicy: IfNotPresent
+    pullSecret: ""
+    uid: 50000
+    gid: 0
+
   executor: CeleryExecutor
   fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
-  webserverSecretKey: "ShouldNotBeInProduction"
+  webserverSecretKey: "THIS IS UNSAFE!"
+
+  ## a list of users to create
+  ## - templates can ONLY be used in: `password`, `email`, `firstName`, `lastName`
+  ## - templates used a bash-like syntax: ${MY_USERNAME}, $MY_USERNAME
+  ## - templates are defined in `usersTemplates`
+  ## - `role` can be a single role or a list of roles
+  ##
+  users:
+    - username: admin
+      password: admin
+      role: Admin
+      email: admin@example.com
+      firstName: admin
+      lastName: admin
+
+  ## pip packages that are protected from upgrade/downgrade by `extraPipPackages`
+  ## - [WARNING] Pods will fail to start if `extraPipPackages` would cause these packages to change versions
+  ##
+  protectedPipPackages:
+    - "apache-airflow"
+
+
+  ########################################
+  ## COMPONENT | db-migrations Deployment
+  ########################################
+  dbMigrations:
+    ## if the db-migrations Deployment/Job is created
+    ## - [WARNING] if `false`, you have to MANUALLY run `airflow db upgrade` when required
+    ##
+    enabled: true
+
+    ## if a post-install helm Job should be used (instead of a Deployment)
+    ## - [WARNING] setting `true` will NOT work with the helm `--wait` flag,
+    ##   this is because post-install helm Jobs run AFTER the main resources become Ready,
+    ##   which will cause a deadlock, as other resources require db-migrations to become Ready
+    ##
+    runAsJob: false
+   
 
 scheduler:
   replicas: 1
