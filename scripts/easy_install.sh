@@ -41,7 +41,7 @@ setup_postgres(){
 
 helm_install(){
   # add helm repo
-  helm repo add apache-airflow https://airflow.apache.org
+  helm repo add apache-helm https://airflow-helm.github.io/charts
 
   # get openshift uid/gid range
   CHART_UID=$(oc get project ${PROJECT} -o jsonpath="{['metadata.annotations.openshift\.io/sa\.scc\.uid-range']}" | sed "s@/.*@@")
@@ -53,11 +53,10 @@ helm_install(){
   helm upgrade \
       --install ${APP_NAME} apache-airflow/airflow \
       --namespace ${PROJECT} \
-      --version 1.10.0 \
       --set uid=${CHART_UID} \
       --set gid=${CHART_GID} \
       --set redis.securityContext.runAsUser=${CHART_UID} \
-      --values ./values.yaml
+      --values ./example_values.yaml
 }
 
 setup_routes(){
