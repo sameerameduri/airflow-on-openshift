@@ -279,6 +279,10 @@ postgresql:
   ## [WARNING] the embedded Postgres is NOT SUITABLE for production deployments of Airflow
   ## [WARNING] consider using an external database with `externalDatabase.*`
   enabled: true
+  securityContext: 
+    fsGroup: 1000720000
+  uid: 1000720000
+  gid: 1000720000
 
   ## configs for the PVC of postgresql
   persistence:
