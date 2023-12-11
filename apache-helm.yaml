@@ -10,8 +10,8 @@ airflow:
   image:
     repository: apache/airflow
     tag: 2.6.3-python3.9
-    uid: 1000710000
-    gid: 1000710000
+    uid: 1000720000
+    gid: 1000720000
 
   ## the airflow executor type to use
   executor: CeleryExecutor
@@ -72,6 +72,12 @@ airflow:
   ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/kubernetes/mount-persistent-volumes.md
   ## [FAQ] https://github.com/airflow-helm/charts/blob/main/charts/airflow/docs/faq/kubernetes/mount-files.md
   extraVolumes: []
+  defaultSecurityContext:
+    ## sets the filesystem owner group of files/folders in mounted volumes
+    ## this does NOT give root permissions to Pods, only the "root" group
+    fsGroup: 1000720000
+  securityContext: 
+    fsGroup: 1000720000
 
 ###################################
 ## COMPONENT | Airflow Scheduler
