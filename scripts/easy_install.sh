@@ -51,7 +51,7 @@ helm_install(){
 
   # install via helm
   helm upgrade \
-      --install ${APP_NAME} apache-airflow/airflow \
+      --install ${APP_NAME} apache-helm/airflow \
       --namespace ${PROJECT} \
       --set uid=${CHART_UID} \
       --set gid=${CHART_GID} \
