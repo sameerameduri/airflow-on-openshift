@@ -141,7 +141,7 @@ flower:
 #     enabled: true
 
 postgresql:
-  enabled: false
+  enabled: true
   primary:
     podSecurityContext:
       enabled: false
