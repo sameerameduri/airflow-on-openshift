@@ -150,8 +150,5 @@ postgresql:
   securityContext: 
     fsGroup: 1000690000
     runAsUser: 1000690000
-    runAsGroup: 1000690000
-  allowPrivilegeEscalation: false
-  runAsUser: 1000690000
-  # Require the container to run without root privileges.
-    rule: 'MustRunAsNonRoot'
+    runAsGroup: 0
+  
