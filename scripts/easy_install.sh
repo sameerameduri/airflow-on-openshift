@@ -53,7 +53,7 @@ helm_install(){
   helm upgrade \
       --install ${APP_NAME} apache-helm/airflow \
       --namespace ${PROJECT} \
-      --values ./apache-helm.yaml
+      --values ./example_values.yaml
 }
 
 setup_routes(){
