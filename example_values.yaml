@@ -149,6 +149,6 @@ postgresql:
       enabled: false
   securityContext: 
     fsGroup: 1000680000
-    runAsUser: 0
+    runAsUser: 1000680000
     runAsGroup: 0
   
