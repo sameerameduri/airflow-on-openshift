@@ -149,5 +149,5 @@ postgresql:
       enabled: false
   securityContext:
     enabled: true 
-    fsGroup: 1001
+    fsGroup: 0
   
