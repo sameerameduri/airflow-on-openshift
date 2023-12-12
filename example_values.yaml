@@ -146,6 +146,6 @@ postgresql:
     containerSecurityContext:
       enabled: false
   securityContext: 
-    fsGroup: 0
+    fsGroup: 1000690000
     runAsUser: 0
-    runAsGroup: 0
+    runAsGroup: 1000690000
