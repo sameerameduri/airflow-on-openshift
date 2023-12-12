@@ -137,3 +137,4 @@ postgresql:
     fsGroup: 1000710000
     runAsUser: 1000710000
     runAsGroup: 0
+  allowPrivilegeEscalation: false
