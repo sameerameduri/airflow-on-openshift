@@ -295,9 +295,9 @@ postgresql:
     containerSecurityContext:
       enabled: false
   securityContext: 
-    fsGroup: 1000690000
-    runAsUser: 1000690000
-    runAsGroup: 1000690000
+    fsGroup: 1000720000
+    runAsUser: 1000720000
+    runAsGroup: 1000720000
 
 ###################################
 ## DATABASE | External Database
