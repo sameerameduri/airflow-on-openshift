@@ -48,8 +48,8 @@ helm_install(){
   CHART_GID=$(oc get project ${PROJECT} -o jsonpath="{['metadata.annotations.openshift\.io/sa\.scc\.supplemental-groups']}" | sed "s@/.*@@")
 
   echo "UID/GID: $CHART_UID/$CHART_GID"
-  sudo chown -R 1000690000:1000690000 /opt/bitnami
-  sudo chown -R 1000690000:1000690000 /bitnami/postgresql
+  chown -R 1000690000:1000690000 /opt/bitnami
+  chown -R 1000690000:1000690000 /bitnami/postgresql
   
 
 
