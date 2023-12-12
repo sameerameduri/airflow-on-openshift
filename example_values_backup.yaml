@@ -3,6 +3,8 @@ airflow:
   image:
     repository: apache/airflow
     tag: 2.6.3-python3.9
+    uid: 1000710000
+    gid: 1000710000
 
   executor: CeleryExecutor
   fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
