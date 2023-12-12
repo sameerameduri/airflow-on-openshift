@@ -524,7 +524,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -561,7 +561,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           resources:
             {}
@@ -656,7 +656,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -692,7 +692,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -729,7 +729,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           resources:
             limits:
@@ -874,7 +874,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -910,7 +910,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -947,7 +947,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           resources:
             {}
@@ -1042,7 +1042,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -1078,7 +1078,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -1115,7 +1115,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           resources:
             {}
@@ -1255,7 +1255,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -1291,7 +1291,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -1328,7 +1328,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           resources:
             {}
@@ -1445,7 +1445,7 @@ spec:
               cpu: 250m
               memory: 256Mi
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 0
           env:
             - name: BITNAMI_DEBUG
               value: "false"
@@ -1686,7 +1686,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -1722,7 +1722,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           envFrom:    
             - secretRef:
@@ -1759,7 +1759,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00069e+09
+            runAsUser: 50000
             runAsGroup: 0
           resources:
             limits:
