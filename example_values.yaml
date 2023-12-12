@@ -3,6 +3,8 @@ airflow:
   image:
     repository: apache/airflow
     tag: 2.6.3-python3.9
+    uid: 1000690000
+    gid: 1000690000
 
   executor: CeleryExecutor
   fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
@@ -147,5 +149,9 @@ postgresql:
       enabled: false
   securityContext: 
     fsGroup: 1000690000
-    runAsUser: 0
-    runAsGroup: 0
+    runAsUser: 1000690000
+    runAsGroup: 1000690000
+  allowPrivilegeEscalation: false
+  runAsUser: 1000690000
+  # Require the container to run without root privileges.
+    rule: 'MustRunAsNonRoot'
