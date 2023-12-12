@@ -33,10 +33,10 @@ airflow:
   defaultSecurityContext:
     ## sets the filesystem owner group of files/folders in mounted volumes
     ## this does NOT give root permissions to Pods, only the "root" group
-    fsGroup: 1000689999
+    fsGroup: 1000680000
     
   securityContext: 
-    fsGroup: 1000689999
+    fsGroup: 1000680000
 
 
   ########################################
@@ -103,21 +103,21 @@ triggerer:
 
 statsd:
   securityContext: 
-    fsGroup: 1000689999
-    runAsUser: 1000689999
+    fsGroup: 1000680000
+    runAsUser: 1000680000
     runAsGroup: 0
 
 pgbouncer:
   enabled: false
   securityContext: 
-    fsGroup: 1000689999
-    runAsUser: 1000689999
+    fsGroup: 1000680000
+    runAsUser: 1000680000
     runAsGroup: 0
 
 redis:
   securityContext: 
-    fsGroup: 1000689999
-    runAsUser: 1000689999
+    fsGroup: 1000680000
+    runAsUser: 1000680000
     runAsGroup: 0
 
 dags:
@@ -148,7 +148,7 @@ postgresql:
     containerSecurityContext:
       enabled: false
   securityContext: 
-    fsGroup: 1000689999
+    fsGroup: 1000680000
     runAsUser: 0
     runAsGroup: 0
   
