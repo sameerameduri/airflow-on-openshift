@@ -108,6 +108,7 @@ statsd:
     runAsGroup: 0
 
 pgbouncer:
+  enabled: false
   securityContext: 
     fsGroup: 1000690000
     runAsUser: 1000690000
