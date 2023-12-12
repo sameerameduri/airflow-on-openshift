@@ -48,6 +48,12 @@ helm_install(){
   CHART_GID=$(oc get project ${PROJECT} -o jsonpath="{['metadata.annotations.openshift\.io/sa\.scc\.supplemental-groups']}" | sed "s@/.*@@")
 
   echo "UID/GID: $CHART_UID/$CHART_GID"
+  FROM bitnami/postgresql:latest
+  USER 0
+  RUN chown CHART_UID:CHART_GID -r daemon /opt/bitnami
+  RUN chown CHART_UID:CHART_GID -r /bitnami/postgresql
+  
+
 
   # install via helm
   helm upgrade \
