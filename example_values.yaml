@@ -102,14 +102,23 @@ triggerer:
   replicas: 1
 
 statsd:
-  uid: null
+  securityContext: 
+    fsGroup: 1000700000
+    runAsUser: 1000700000
+    runAsGroup: 1000700000
 
 pgbouncer:
-  uid: null
+  securityContext: 
+    fsGroup: 1000700000
+    runAsUser: 1000700000
+    runAsGroup: 1000700000
 
 redis:
-  uid: null
-  
+  securityContext: 
+    fsGroup: 1000700000
+    runAsUser: 1000700000
+    runAsGroup: 1000700000
+
 dags:
   persistence:
     enabled: false
@@ -136,4 +145,7 @@ postgresql:
       enabled: false
     containerSecurityContext:
       enabled: false
-  
+  securityContext: 
+    fsGroup: 1000700000
+    runAsUser: 1000700000
+    runAsGroup: 1000700000
