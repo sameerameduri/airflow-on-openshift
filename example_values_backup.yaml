@@ -28,7 +28,7 @@ airflow:
   defaultSecurityContext:
     ## sets the filesystem owner group of files/folders in mounted volumes
     ## this does NOT give root permissions to Pods, only the "root" group
-    fsGroup: 1000680000
+    fsGroup: 1000710000
  
 
 
