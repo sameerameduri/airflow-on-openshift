@@ -105,19 +105,19 @@ statsd:
   securityContext: 
     fsGroup: 1000690000
     runAsUser: 1000690000
-    runAsGroup: 1000690000
+    runAsGroup: 0
 
 pgbouncer:
   securityContext: 
     fsGroup: 1000690000
     runAsUser: 1000690000
-    runAsGroup: 1000690000
+    runAsGroup: 0
 
 redis:
   securityContext: 
     fsGroup: 1000690000
     runAsUser: 1000690000
-    runAsGroup: 1000690000
+    runAsGroup: 0
 
 dags:
   persistence:
@@ -149,4 +149,4 @@ postgresql:
   securityContext: 
     fsGroup: 1000690000
     runAsUser: 1000690000
-    runAsGroup: 1000690000
+    runAsGroup: 0
