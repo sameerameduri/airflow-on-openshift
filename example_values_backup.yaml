@@ -101,7 +101,8 @@ pgbouncer:
   enabled: false
 
 redis:
-  uid: null
+  securityContext:
+    runAsUser: 1000710000
 
 dags:
   persistence:
