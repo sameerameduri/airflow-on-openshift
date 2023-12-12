@@ -48,11 +48,7 @@ helm_install(){
   CHART_GID=$(oc get project ${PROJECT} -o jsonpath="{['metadata.annotations.openshift\.io/sa\.scc\.supplemental-groups']}" | sed "s@/.*@@")
 
   echo "UID/GID: $CHART_UID/$CHART_GID"
-  chown -R 1000690000:1000690000 /opt/bitnami
-  chown -R 1000690000:1000690000 /bitnami/postgresql
-  
-
-
+ 
   # install via helm
   helm upgrade \
       --install ${APP_NAME} apache-helm/airflow \

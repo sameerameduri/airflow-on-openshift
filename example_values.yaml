@@ -3,8 +3,8 @@ airflow:
   image:
     repository: apache/airflow
     tag: 2.6.3-python3.9
-    uid: 1000690000
-    gid: 1000690000
+    uid: 1000680000
+    gid: 1000680000
 
   executor: CeleryExecutor
   fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
@@ -33,10 +33,10 @@ airflow:
   defaultSecurityContext:
     ## sets the filesystem owner group of files/folders in mounted volumes
     ## this does NOT give root permissions to Pods, only the "root" group
-    fsGroup: 1000690000
+    fsGroup: 1000680000
     
   securityContext: 
-    fsGroup: 1000690000
+    fsGroup: 1000680000
 
 
   ########################################
@@ -103,21 +103,21 @@ triggerer:
 
 statsd:
   securityContext: 
-    fsGroup: 1000690000
-    runAsUser: 1000690000
+    fsGroup: 1000680000
+    runAsUser: 1000680000
     runAsGroup: 0
 
 pgbouncer:
   enabled: false
   securityContext: 
-    fsGroup: 1000690000
-    runAsUser: 1000690000
+    fsGroup: 1000680000
+    runAsUser: 1000680000
     runAsGroup: 0
 
 redis:
   securityContext: 
-    fsGroup: 1000690000
-    runAsUser: 1000690000
+    fsGroup: 1000680000
+    runAsUser: 1000680000
     runAsGroup: 0
 
 dags:
@@ -148,7 +148,7 @@ postgresql:
     containerSecurityContext:
       enabled: false
   securityContext: 
-    fsGroup: 1000690000
-    runAsUser: 1000690000
-    runAsGroup: 1000690000
+    fsGroup: 1000680000
+    runAsUser: 1000680000
+    runAsGroup: 1000680000
   
