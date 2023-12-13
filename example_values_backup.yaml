@@ -133,13 +133,7 @@ postgresql:
       enabled: false
     containerSecurityContext:
       enabled: false
-  securityContext: 
-    fsGroup: 1000710000
-    runAsUser: 1000710000
-    runAsGroup: 0
-    type: MustRunAsNonRoot
   volumePermissions:
-    enabled: false
     securityContext:
       runAsUser: "auto"
   securityContext:
@@ -148,4 +142,4 @@ postgresql:
     chmod:
       enabled: false
   containerSecurityContext:
-  enabled: false
+    enabled: false
