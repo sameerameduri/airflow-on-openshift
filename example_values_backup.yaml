@@ -136,6 +136,6 @@ postgresql:
     enabled: false
   shmVolume:
     chmod:
-      enabled: false
+      enabled: true
   containerSecurityContext:
     enabled: false
