@@ -131,7 +131,7 @@ postgresql:
   volumePermissions:
     enabled: true
     securityContext:
-      runAsUser: "auto"
+      runAsUser: 0
   securityContext:
     enabled: false
   shmVolume:
