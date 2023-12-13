@@ -152,7 +152,7 @@ externalDatabase:
 
   ## the host of the external database
   ##
-  host: ip-10-0-159-204.us-east-2.compute.internal
+  host: ip-10-0-200-193.us-east-2.compute.internal
 
   ## the port of the external database
   ##
