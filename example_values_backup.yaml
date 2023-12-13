@@ -127,7 +127,7 @@ flower:
 #     enabled: true
 
 postgresql:
-  enabled: false
+  enabled: true
   volumePermissions:
     enabled: true
     securityContext:
@@ -139,24 +139,3 @@ postgresql:
       enabled: false
   containerSecurityContext:
     enabled: false
-
-externalDatabase:
-  
-  type: postgres
-  host: localhost
-  port: 5432
-  database: airflow
-  user: airflow
-  userSecret: ""
-  userSecretKey: "postgresql-user"
-  password: ""
-  passwordSecret: ""
-  passwordSecretKey: "postgresql-password"
-
-  ## extra connection-string properties for the external database
-  ##
-  ## ____ EXAMPLE _______________
-  ##   # require SSL (only for Postgres)
-  ##   properties: "?sslmode=require"
-  ##
-  properties: "?sslmode=require"
