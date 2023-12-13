@@ -134,12 +134,8 @@ postgresql:
     containerSecurityContext:
       enabled: false
   volumePermissions:
+    enabled: true
     securityContext:
       runAsUser: "auto"
   securityContext:
-    enabled: false
-  shmVolume:
-    chmod:
-      enabled: false
-  containerSecurityContext:
     enabled: false
