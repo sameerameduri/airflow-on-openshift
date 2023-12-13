@@ -131,7 +131,7 @@ postgresql:
   volumePermissions:
     enabled: true
     securityContext:
-      runAsUser: 0
+      runAsUser: "auto"
   securityContext:
     enabled: false
   shmVolume:
@@ -139,3 +139,7 @@ postgresql:
       enabled: false
   containerSecurityContext:
     enabled: false
+  allowPrivilegeEscalation: false
+  runAsUser:
+  # Require the container to run without root privileges.
+  rule: 'MustRunAsNonRoot'
