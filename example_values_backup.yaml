@@ -128,11 +128,6 @@ flower:
 
 postgresql:
   enabled: true
-  primary:
-    podSecurityContext:
-      enabled: false
-    containerSecurityContext:
-      enabled: false
   volumePermissions:
     enabled: true
     securityContext:
