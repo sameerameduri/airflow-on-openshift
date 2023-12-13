@@ -139,3 +139,6 @@ postgresql:
       runAsUser: "auto"
   securityContext:
     enabled: false
+  shmVolume:
+    chmod:
+      enabled: true
