@@ -49,7 +49,6 @@ helm_install(){
 
   echo "UID/GID: $CHART_UID/$CHART_GID"
 
-  chmod -R g+rwX .
  
   # install via helm
   helm upgrade \

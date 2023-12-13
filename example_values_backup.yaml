@@ -127,7 +127,7 @@ flower:
 #     enabled: true
 
 postgresql:
-  enabled: true
+  enabled: false
   volumePermissions:
     enabled: true
     securityContext:
@@ -143,3 +143,57 @@ postgresql:
   runAsUser:
   # Require the container to run without root privileges.
   rule: 'MustRunAsNonRoot'
+
+externalDatabase:
+  ## the type of external database
+  ## - allowed values: "mysql", "postgres"
+  ##
+  type: postgres
+
+  ## the host of the external database
+  ##
+  host: 10.0.169.212
+
+  ## the port of the external database
+  ##
+  port: 5432
+
+  ## the database/scheme to use within the external database
+  ##
+  database: sampledb
+
+  ## the username for the external database
+  ##
+  user: userV8X
+
+  ## the name of a pre-created secret containing the external database user
+  ## - if set, this overrides `externalDatabase.user`
+  ##
+  userSecret: ""
+
+  ## the key within `externalDatabase.userSecret` containing the user string
+  ##
+  userSecretKey: ""
+
+  ## the password for the external database
+  ## - [WARNING] to avoid storing the password in plain-text within your values,
+  ##   create a Kubernetes secret and use `externalDatabase.passwordSecret`
+  ##
+  password: "rAArDGTFJ0r3enbd"
+
+  ## the name of a pre-created secret containing the external database password
+  ## - if set, this overrides `externalDatabase.password`
+  ##
+  passwordSecret: ""
+
+  ## the key within `externalDatabase.passwordSecret` containing the password string
+  ##
+  passwordSecretKey: "postgresql-password"
+
+  ## extra connection-string properties for the external database
+  ##
+  ## ____ EXAMPLE _______________
+  ##   # require SSL (only for Postgres)
+  ##   properties: "?sslmode=require"
+  ##
+  properties: ""
