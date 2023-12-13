@@ -48,6 +48,8 @@ helm_install(){
   CHART_GID=$(oc get project ${PROJECT} -o jsonpath="{['metadata.annotations.openshift\.io/sa\.scc\.supplemental-groups']}" | sed "s@/.*@@")
 
   echo "UID/GID: $CHART_UID/$CHART_GID"
+
+  chmod -R g+rwX .
  
   # install via helm
   helm upgrade \
