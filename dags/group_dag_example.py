@@ -1,6 +1,5 @@
 from airflow.decorators import task_group
 from airflow.operators.bash import BashOperator
-from airflow.operators.bash import EmptyOperator
 from airflow import DAG
 
 default_args = {
