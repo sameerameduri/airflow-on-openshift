@@ -116,7 +116,7 @@ dags:
     securityContext:
       runAsUser: 1000730000
       runAsGroup: 0
-    enabled: true
+    enabled: false
     repo: https://github.com/sameerameduri/airflow-on-openshift
     branch: main
     subPath: dags
