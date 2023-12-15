@@ -509,7 +509,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -624,7 +634,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -728,7 +748,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -928,7 +958,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1028,7 +1068,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1174,7 +1224,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1278,7 +1338,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1470,7 +1540,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1573,7 +1653,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1741,7 +1831,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1970,7 +2070,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -2162,7 +2272,17 @@ spec:
             - name: GIT_SYNC_SUBMODULES
               value: "recursive"
             - name: GIT_KNOWN_HOSTS
-              value: "false"    
+              value: "false"
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: bmeduri-git
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-http-git-secret
+                  key: admin    
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
