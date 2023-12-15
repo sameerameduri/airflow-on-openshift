@@ -74,6 +74,9 @@ web:
     initialDelaySeconds: 45
   livenessProbe:
     initialDelaySeconds: 60
+  securityContext:
+    runAsUser: 1000730000
+    runAsGroup: 0
 
 workers:
   enabled: true
