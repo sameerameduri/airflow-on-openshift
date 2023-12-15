@@ -10,20 +10,6 @@ metadata:
     release: airflow
     heritage: Helm
 ---
-# Source: airflow/charts/postgresql/templates/secrets.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: airflow-postgresql
-  labels:
-    app: postgresql
-    chart: postgresql-8.6.4
-    release: "airflow"
-    heritage: "Helm"
-type: Opaque
-data:
-  postgresql-password: "YWlyZmxvdw=="
----
 # Source: airflow/charts/redis/templates/secret.yaml
 apiVersion: v1
 kind: Secret
@@ -59,11 +45,16 @@ data:
   ## Database Configs
   ## ================
   ## database host/port
-  DATABASE_HOST: "YWlyZmxvdy1wb3N0Z3Jlc3FsLmFpcmZsb3ctcHJlc2VudGF0aW9uLnN2Yy5jbHVzdGVyLmxvY2Fs"
+  DATABASE_HOST: "cG9zdGdyZXNxbC5teS1wb3N0Z3Jlc3FsLnN2Yw=="
   DATABASE_PORT: "NTQzMg=="
 
   ## database configs
-  DATABASE_DB: "YWlyZmxvdw=="
+  DATABASE_DB: "c2FtcGxlZGI="
+  DATABASE_PROPERTIES: ""
+
+  ## database credentials (from plain-text helm values)
+  DATABASE_USER: "dXNlclY4WA=="
+  DATABASE_PASSWORD: "ckFBckRHVEZKMHIzZW5iZA=="
 
   ## bash command which echos the URL encoded value of $DATABASE_USER
   DATABASE_USER_CMD: "ZWNobyAiJHtEQVRBQkFTRV9VU0VSfSIgfCBweXRob24zIC1jICJpbXBvcnQgdXJsbGliLnBhcnNlOyBlbmNvZGVkX3VzZXIgPSB1cmxsaWIucGFyc2UucXVvdGUoaW5wdXQoKSk7IHByaW50KGVuY29kZWRfdXNlciki"
@@ -72,16 +63,16 @@ data:
   DATABASE_PASSWORD_CMD: "ZWNobyAiJHtEQVRBQkFTRV9QQVNTV09SRH0iIHwgcHl0aG9uMyAtYyAiaW1wb3J0IHVybGxpYi5wYXJzZTsgZW5jb2RlZF9wYXNzID0gdXJsbGliLnBhcnNlLnF1b3RlKGlucHV0KCkpOyBwcmludChlbmNvZGVkX3Bhc3MpIg=="
 
   ## bash command which echos the DB connection string in SQLAlchemy format
-  DATABASE_SQLALCHEMY_CMD: "ZWNobyAtbiAicG9zdGdyZXNxbCtwc3ljb3BnMjovLyQoZXZhbCAkREFUQUJBU0VfVVNFUl9DTUQpOiQoZXZhbCAkREFUQUJBU0VfUEFTU1dPUkRfQ01EKUAke0RBVEFCQVNFX0hPU1R9OiR7REFUQUJBU0VfUE9SVH0vJHtEQVRBQkFTRV9EQn0i"
+  DATABASE_SQLALCHEMY_CMD: "ZWNobyAtbiAicG9zdGdyZXNxbCtwc3ljb3BnMjovLyQoZXZhbCAkREFUQUJBU0VfVVNFUl9DTUQpOiQoZXZhbCAkREFUQUJBU0VfUEFTU1dPUkRfQ01EKUAke0RBVEFCQVNFX0hPU1R9OiR7REFUQUJBU0VfUE9SVH0vJHtEQVRBQkFTRV9EQn0ke0RBVEFCQVNFX1BST1BFUlRJRVN9Ig=="
 
   ## bash command which echos the DB connection string in Celery result_backend format
-  DATABASE_CELERY_CMD: "ZWNobyAtbiAiZGIrcG9zdGdyZXNxbDovLyQoZXZhbCAkREFUQUJBU0VfVVNFUl9DTUQpOiQoZXZhbCAkREFUQUJBU0VfUEFTU1dPUkRfQ01EKUAke0RBVEFCQVNFX0hPU1R9OiR7REFUQUJBU0VfUE9SVH0vJHtEQVRBQkFTRV9EQn0i"
+  DATABASE_CELERY_CMD: "ZWNobyAtbiAiZGIrcG9zdGdyZXNxbDovLyQoZXZhbCAkREFUQUJBU0VfVVNFUl9DTUQpOiQoZXZhbCAkREFUQUJBU0VfUEFTU1dPUkRfQ01EKUAke0RBVEFCQVNFX0hPU1R9OiR7REFUQUJBU0VfUE9SVH0vJHtEQVRBQkFTRV9EQn0ke0RBVEFCQVNFX1BST1BFUlRJRVN9Ig=="
 
   ## ================
   ## Redis Configs
   ## ================
   ## connection string components
-  REDIS_HOST: "YWlyZmxvdy1yZWRpcy1tYXN0ZXIuYWlyZmxvdy1wcmVzZW50YXRpb24uc3ZjLmNsdXN0ZXIubG9jYWw="
+  REDIS_HOST: "YWlyZmxvdy1yZWRpcy1tYXN0ZXIubXktcG9zdGdyZXNxbC5zdmMuY2x1c3Rlci5sb2NhbA=="
   REDIS_PORT: "NjM3OQ=="
   REDIS_DBNUM: "MQ=="
 
@@ -95,12 +86,14 @@ data:
   ## ================
   ## Airflow Configs (General)
   ## ================
-  AIRFLOW__CORE__DAGS_FOLDER: "L29wdC9haXJmbG93L2RhZ3M="
+  AIRFLOW__CORE__DAGS_FOLDER: "L29wdC9haXJmbG93L2RhZ3MvcmVwby8="
   AIRFLOW__CORE__EXECUTOR: "Q2VsZXJ5RXhlY3V0b3I="
   AIRFLOW__CORE__FERNET_KEY: "N1Q1MTJVWFNTbUJPa3BXaW1GSElWYjhqSzZsZm1TQXZ4NG1PNkFyZWhuYz0="
   AIRFLOW__WEBSERVER__SECRET_KEY: "U2hvdWxkTm90QmVJblByb2R1Y3Rpb24="
   AIRFLOW__WEBSERVER__WEB_SERVER_PORT: "ODA4MA=="
   AIRFLOW__CELERY__FLOWER_PORT: "NTU1NQ=="
+  ## refresh the dags folder at the same frequency as git-sync
+  AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "NjA="
 
   ## ================
   ## Airflow Configs (Database)
@@ -343,49 +336,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: airflow
-  namespace: airflow-presentation
----
-# Source: airflow/charts/postgresql/templates/svc-headless.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: airflow-postgresql-headless
-  labels:
-    app: postgresql
-    chart: postgresql-8.6.4
-    release: "airflow"
-    heritage: "Helm"
-spec:
-  type: ClusterIP
-  clusterIP: None
-  ports:
-    - name: tcp-postgresql
-      port: 5432
-      targetPort: tcp-postgresql
-  selector:
-    app: postgresql
-    release: "airflow"
----
-# Source: airflow/charts/postgresql/templates/svc.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: airflow-postgresql
-  labels:
-    app: postgresql
-    chart: postgresql-8.6.4
-    release: "airflow"
-    heritage: "Helm"
-spec:
-  type: ClusterIP
-  ports:
-    - name: tcp-postgresql
-      port: 5432
-      targetPort: tcp-postgresql
-  selector:
-    app: postgresql
-    release: "airflow"
-    role: master
+  namespace: my-postgresql
 ---
 # Source: airflow/charts/redis/templates/headless-svc.yaml
 apiVersion: v1
@@ -500,7 +451,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
+        checksum/secret-config-envs: fcb3a79765ba4fc85f329aeb878fbc838ffa3f7cf8172abc16607ace6641cd00
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/db-migrations-script: 37898f38b90abd06081105d992362ec9e0d0015123b69e758e59031a9e6ddfc9
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -517,26 +468,68 @@ spec:
       tolerations:
         []
       securityContext:
-        fsGroup: 1000710000
+        fsGroup: 1000730000
       serviceAccountName: airflow
-      initContainers:        
+      initContainers:
+        ## git-sync is included so "airflow plugins" & "python packages" can be stored in the dags repo        
+        - name: dags-git-clone
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags        
         - name: check-db  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -553,6 +546,8 @@ spec:
             - "-c"
             - "exec timeout 60s airflow db check"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath: 
@@ -561,7 +556,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           resources:
             {}
@@ -569,13 +564,6 @@ spec:
             - secretRef:
                 name: airflow-config-envs
           env:            
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -592,13 +580,64 @@ spec:
             - "-u"
             - "/mnt/scripts/db_migrations.py"
           volumeMounts:            
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath: 
             - name: scripts
               mountPath: /mnt/scripts
               readOnly: true
+        ## git-sync is included so "airflow plugins" & "python packages" can be stored in the dags repo        
+        - name: dags-git-sync
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags
       volumes:        
+        - name: dags-data
+          emptyDir: {}
         - name: logs-data
           persistentVolumeClaim:
             claimName: airflow-pvc
@@ -633,7 +672,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
+        checksum/secret-config-envs: fcb3a79765ba4fc85f329aeb878fbc838ffa3f7cf8172abc16607ace6641cd00
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -649,26 +688,67 @@ spec:
       tolerations:
         []
       securityContext:
-        fsGroup: 1000710000
+        fsGroup: 1000730000
       serviceAccountName: airflow
       initContainers:        
+        - name: dags-git-clone
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags        
         - name: check-db  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -685,6 +765,8 @@ spec:
             - "-c"
             - "exec timeout 60s airflow db check"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath:         
@@ -692,19 +774,12 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -721,6 +796,8 @@ spec:
             - "-c"
             - "exec airflow db check-migrations -t 60"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath: 
@@ -729,7 +806,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           resources:
             limits:
@@ -742,13 +819,6 @@ spec:
             - secretRef:
                 name: airflow-config-envs
           env:            
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -818,10 +888,60 @@ spec:
                       else:
                           sys.exit(f"The SchedulerJob (id={scheduler_job.id}) for hostname '{hostname}' is not alive")
           volumeMounts:            
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
-              subPath: 
+              subPath:         
+        - name: dags-git-sync
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags
       volumes:        
+        - name: dags-data
+          emptyDir: {}
         - name: logs-data
           persistentVolumeClaim:
             claimName: airflow-pvc
@@ -850,7 +970,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
+        checksum/secret-config-envs: fcb3a79765ba4fc85f329aeb878fbc838ffa3f7cf8172abc16607ace6641cd00
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/sync-users-script: 9733d90da42fbc9e6b1e60df36e22c87aa7c1114a86eb96bb2eae03de9a3b046
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -867,26 +987,68 @@ spec:
       tolerations:
         []
       securityContext:
-        fsGroup: 1000710000
+        fsGroup: 1000730000
       serviceAccountName: airflow
-      initContainers:        
+      initContainers:
+        ## git-sync is included so "airflow plugins" & "python packages" can be stored in the dags repo        
+        - name: dags-git-clone
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags        
         - name: check-db  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -903,6 +1065,8 @@ spec:
             - "-c"
             - "exec timeout 60s airflow db check"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath:         
@@ -910,19 +1074,12 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -939,6 +1096,8 @@ spec:
             - "-c"
             - "exec airflow db check-migrations -t 60"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath: 
@@ -947,7 +1106,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           resources:
             {}
@@ -955,13 +1114,6 @@ spec:
             - secretRef:
                 name: airflow-config-envs
           env:            
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -978,13 +1130,64 @@ spec:
             - "-u"
             - "/mnt/scripts/sync_users.py"
           volumeMounts:            
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath: 
             - name: scripts
               mountPath: /mnt/scripts
               readOnly: true
+        ## git-sync is included so "airflow plugins" & "python packages" can be stored in the dags repo        
+        - name: dags-git-sync
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags
       volumes:        
+        - name: dags-data
+          emptyDir: {}
         - name: logs-data
           persistentVolumeClaim:
             claimName: airflow-pvc
@@ -1019,7 +1222,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
+        checksum/secret-config-envs: fcb3a79765ba4fc85f329aeb878fbc838ffa3f7cf8172abc16607ace6641cd00
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -1036,25 +1239,66 @@ spec:
         []
       serviceAccountName: airflow
       securityContext:
-        fsGroup: 1000710000
+        fsGroup: 1000730000
       initContainers:        
+        - name: dags-git-clone
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags        
         - name: check-db  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1071,6 +1315,8 @@ spec:
             - "-c"
             - "exec timeout 60s airflow db check"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath:         
@@ -1078,19 +1324,12 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1107,6 +1346,8 @@ spec:
             - "-c"
             - "exec airflow db check-migrations -t 60"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath: 
@@ -1115,7 +1356,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           resources:
             {}
@@ -1123,13 +1364,6 @@ spec:
             - secretRef:
                 name: airflow-config-envs
           env:            
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1196,10 +1430,60 @@ spec:
                       else:
                           sys.exit(f"The TriggererJob (id={triggerer_job.id}) for hostname '{hostname}' is not alive")
           volumeMounts:            
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
-              subPath: 
+              subPath:         
+        - name: dags-git-sync
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags
       volumes:        
+        - name: dags-data
+          emptyDir: {}
         - name: logs-data
           persistentVolumeClaim:
             claimName: airflow-pvc
@@ -1231,7 +1515,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
+        checksum/secret-config-envs: fcb3a79765ba4fc85f329aeb878fbc838ffa3f7cf8172abc16607ace6641cd00
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/config-webserver-config: 08f3293f0aaa3978bcbcae61eee58760bcba270cf691c5ff9c788d678ba8d579
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -1249,25 +1533,67 @@ spec:
         []
       serviceAccountName: airflow
       securityContext:
-        fsGroup: 1000710000
+        runAsGroup: 0
+        runAsUser: 1000730000
       initContainers:        
+        - name: dags-git-clone
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags        
         - name: check-db  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1284,6 +1610,8 @@ spec:
             - "-c"
             - "exec timeout 60s airflow db check"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath:         
@@ -1291,19 +1619,12 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1320,6 +1641,8 @@ spec:
             - "-c"
             - "exec airflow db check-migrations -t 60"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath: 
@@ -1328,7 +1651,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           resources:
             {}
@@ -1340,13 +1663,6 @@ spec:
             - secretRef:
                 name: airflow-config-envs
           env:            
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1381,14 +1697,64 @@ spec:
               path: /health
               port: web
           volumeMounts:            
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath: 
             - name: webserver-config
               mountPath: /opt/airflow/webserver_config.py
               subPath: webserver_config.py
-              readOnly: true
+              readOnly: true        
+        - name: dags-git-sync
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags
       volumes:        
+        - name: dags-data
+          emptyDir: {}
         - name: logs-data
           persistentVolumeClaim:
             claimName: airflow-pvc
@@ -1396,143 +1762,6 @@ spec:
           secret:
             secretName: airflow-webserver-config
             defaultMode: 0644
----
-# Source: airflow/charts/postgresql/templates/statefulset.yaml
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: airflow-postgresql
-  labels:
-    app: postgresql
-    chart: postgresql-8.6.4
-    release: "airflow"
-    heritage: "Helm"
-spec:
-  serviceName: airflow-postgresql-headless
-  replicas: 1
-  updateStrategy:
-    type: RollingUpdate
-  selector:
-    matchLabels:
-      app: postgresql
-      release: "airflow"
-      role: master
-  template:
-    metadata:
-      name: airflow-postgresql
-      labels:
-        app: postgresql
-        chart: postgresql-8.6.4
-        release: "airflow"
-        heritage: "Helm"
-        role: master
-      annotations:
-        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-    spec:      
-      initContainers:
-        - name: init-chmod-data
-          image: docker.io/bitnami/minideb:buster
-          imagePullPolicy: "Always"
-          resources:
-            requests:
-              cpu: 250m
-              memory: 256Mi
-          command:
-            - /bin/sh
-            - -cx
-            - |
-              
-              mkdir -p /bitnami/postgresql/data
-              chmod 700 /bitnami/postgresql/data
-              find /bitnami/postgresql -mindepth 1 -maxdepth 1 -not -name ".snapshot" -not -name "lost+found" | \
-                xargs chown -R `id -u`:`id -G | cut -d " " -f2`
-          securityContext:
-          volumeMounts:
-            
-            - name: data
-              mountPath: /bitnami/postgresql
-              subPath: 
-            - name: dshm
-              mountPath: /dev/shm
-        # - name: do-something
-        #   image: busybox
-        #   command: ['do', 'something']
-        
-      containers:
-        - name: airflow-postgresql
-          image: ghcr.io/airflow-helm/postgresql-bitnami:11.16-patch.0
-          imagePullPolicy: "IfNotPresent"
-          resources:
-            requests:
-              cpu: 250m
-              memory: 256Mi
-          env:
-            - name: BITNAMI_DEBUG
-              value: "false"
-            - name: POSTGRESQL_PORT_NUMBER
-              value: "5432"
-            - name: POSTGRESQL_VOLUME_DIR
-              value: "/bitnami/postgresql"
-            - name: PGDATA
-              value: "/bitnami/postgresql/data"
-            - name: POSTGRES_USER
-              value: "postgres"
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
-            - name: POSTGRES_DB
-              value: "airflow"
-            - name: POSTGRESQL_ENABLE_LDAP
-              value: "no"
-          ports:
-            - name: tcp-postgresql
-              containerPort: 5432
-          livenessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - exec pg_isready -U "postgres" -d "airflow" -h 127.0.0.1 -p 5432
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
-          readinessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - -e
-                - |
-                  exec pg_isready -U "postgres" -d "airflow" -h 127.0.0.1 -p 5432
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
-          volumeMounts:
-            - name: dshm
-              mountPath: /dev/shm
-            - name: data
-              mountPath: /bitnami/postgresql
-              subPath: 
-      volumes:
-        - name: dshm
-          emptyDir:
-            medium: Memory
-            sizeLimit: 1Gi
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes:
-          - "ReadWriteOnce"
-        resources:
-          requests:
-            storage: "8Gi"
 ---
 # Source: airflow/charts/redis/templates/redis-master-statefulset.yaml
 apiVersion: apps/v1
@@ -1565,7 +1794,7 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
     spec:      
       securityContext:
-        fsGroup: 1.00071e+09
+        fsGroup: 1.00073e+09
       serviceAccountName: "default"
       containers:
       - name: airflow-redis
@@ -1684,7 +1913,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
+        checksum/secret-config-envs: fcb3a79765ba4fc85f329aeb878fbc838ffa3f7cf8172abc16607ace6641cd00
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -1702,25 +1931,66 @@ spec:
       tolerations:
         []
       securityContext:
-        fsGroup: 1000710000
+        fsGroup: 1000730000
       initContainers:        
+        - name: dags-git-clone
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ONE_TIME
+              value: "true"
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags        
         - name: check-db  
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1737,6 +2007,8 @@ spec:
             - "-c"
             - "exec timeout 60s airflow db check"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath:         
@@ -1744,19 +2016,12 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           envFrom:    
             - secretRef:
                 name: airflow-config-envs
           env:    
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1773,6 +2038,8 @@ spec:
             - "-c"
             - "exec airflow db check-migrations -t 60"
           volumeMounts:    
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
               subPath: 
@@ -1781,7 +2048,7 @@ spec:
           image: apache/airflow:2.6.3-python3.9
           imagePullPolicy: IfNotPresent
           securityContext:
-            runAsUser: 1.00071e+09
+            runAsUser: 1.00073e+09
             runAsGroup: 0
           resources:
             limits:
@@ -1794,13 +2061,6 @@ spec:
             - secretRef:
                 name: airflow-config-envs
           env:            
-            - name: DATABASE_USER
-              value: "postgres"
-            - name: DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-postgresql
-                  key: postgresql-password
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -1862,10 +2122,60 @@ spec:
             - "-c"
             - "exec airflow celery worker"
           volumeMounts:            
+            - name: dags-data
+              mountPath: /opt/airflow/dags
             - name: logs-data
               mountPath: /opt/airflow/logs
-              subPath: 
+              subPath:         
+        - name: dags-git-sync
+          image: registry.k8s.io/git-sync/git-sync:v3.6.5
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 65533
+            runAsGroup: 65533
+          resources:
+            {}
+          envFrom:    
+            - secretRef:
+                name: airflow-config-envs
+          env:
+            - name: GIT_SYNC_ROOT
+              value: "/dags"
+            - name: GIT_SYNC_DEST
+              value: "repo"
+            - name: GIT_SYNC_REPO
+              value: "https://github.com/sameerameduri/airflow-on-openshift"
+            - name: GIT_SYNC_BRANCH
+              value: "main"
+            - name: GIT_SYNC_REV
+              value: "HEAD"
+            - name: GIT_SYNC_DEPTH
+              value: "1"
+            - name: GIT_SYNC_WAIT
+              value: "60"
+            - name: GIT_SYNC_TIMEOUT
+              value: "120"
+            - name: GIT_SYNC_ADD_USER
+              value: "true"
+            - name: GIT_SYNC_MAX_SYNC_FAILURES
+              value: "0"
+            - name: GIT_SYNC_SUBMODULES
+              value: "recursive"
+            - name: GIT_KNOWN_HOSTS
+              value: "false"    
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-redis
+                  key: redis-password
+            - name: CONNECTION_CHECK_MAX_COUNT
+              value: "0"
+          volumeMounts:
+            - name: dags-data
+              mountPath: /dags
       volumes:        
+        - name: dags-data
+          emptyDir: {}
         - name: logs-data
           persistentVolumeClaim:
             claimName: airflow-pvc

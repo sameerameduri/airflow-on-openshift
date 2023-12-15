@@ -112,14 +112,15 @@ redis:
 dags:
   persistence:
     enabled: false
-  securityContext:
-    runAsUser: 1000730000
-    runAsGroup: 0
   gitSync:
     enabled: true
     repo: https://github.com/sameerameduri/airflow-on-openshift
     branch: main
     subPath: dags
+    syncWait: 60
+    httpSecret: "airflow-http-git-secret"
+    httpSecretUsernameKey: bmeduri-git
+    httpSecretPasswordKey: admin
   
 
 
