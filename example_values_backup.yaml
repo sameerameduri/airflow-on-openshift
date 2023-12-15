@@ -113,7 +113,10 @@ dags:
   persistence:
     enabled: false
   gitSync:
-    enabled: false
+    enabled: true
+    repo: https://github.com/sameerameduri/airflow-on-openshift
+    branch: main
+    subPath: dags
 
 
 logs:
