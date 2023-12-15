@@ -113,6 +113,8 @@ dags:
   persistence:
     enabled: false
   gitSync:
+    uid: 1000730000
+    gid: 0
     enabled: true
     repo: https://github.com/sameerameduri/airflow-on-openshift
     branch: main
