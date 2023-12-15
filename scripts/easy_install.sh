@@ -54,10 +54,8 @@ helm_install(){
   helm upgrade \
       --install ${APP_NAME} apache-helm/airflow \
       --namespace ${PROJECT} \
-      --set uid=${CHART_UID} \
-      --set gid=${CHART_GID} \
       --set redis.securityContext.runAsUser=${CHART_UID} \
-      --values ./values.yaml
+      --values ./example_values_backup.yaml
 }
 
 setup_routes(){
