@@ -110,14 +110,11 @@ redis:
     runAsGroup: 0
 
 dags:
-  runAsUser: 1000730000
-  runAsGroup: 0
   persistence:
     enabled: false
   gitSync:
-    securityContext:
-      runAsUser: 1000730000
-      runAsGroup: 0
+    image:
+      uid: 1000730000
     enabled: true
     repo: https://github.com/sameerameduri/airflow-on-openshift
     branch: main
