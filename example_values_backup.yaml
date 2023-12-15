@@ -145,55 +145,27 @@ postgresql:
   rule: 'MustRunAsNonRoot'
 
 externalDatabase:
-  ## the type of external database
-  ## - allowed values: "mysql", "postgres"
-  ##
   type: postgres
 
-  ## the host of the external database
-  ##
-  host: ip-10-0-200-193.us-east-2.compute.internal
-
-  ## the port of the external database
-  ##
+  host: postgresql.my-postgresql.svc
   port: 5432
 
-  ## the database/scheme to use within the external database
-  ##
+  ## the schema which will contain the airflow tables
   database: sampledb
 
-  ## the username for the external database
-  ##
+  ## (username - option 1) a plain-text helm value
   user: userV8X
 
-  ## the name of a pre-created secret containing the external database user
-  ## - if set, this overrides `externalDatabase.user`
-  ##
-  userSecret: ""
+  ## (username - option 2) a Kubernetes secret in your airflow namespace
+  #userSecret: "kepler-airflow-dev-secrets"
+  #userSecretKey: AIRFLOW_POSTGRES_USER
 
-  ## the key within `externalDatabase.userSecret` containing the user string
-  ##
-  userSecretKey: ""
+  ## (password - option 1) a plain-text helm value
+  password: rAArDGTFJ0r3enbd
 
-  ## the password for the external database
-  ## - [WARNING] to avoid storing the password in plain-text within your values,
-  ##   create a Kubernetes secret and use `externalDatabase.passwordSecret`
-  ##
-  password: "rAArDGTFJ0r3enbd"
+  ## (password - option 2) a Kubernetes secret in your airflow namespace
+  #passwordSecret: "kepler-airflow-dev-secrets"
+  #passwordSecretKey: AIRFLOW_POSTGRES_PASSWORD
 
-  ## the name of a pre-created secret containing the external database password
-  ## - if set, this overrides `externalDatabase.password`
-  ##
-  passwordSecret: ""
-
-  ## the key within `externalDatabase.passwordSecret` containing the password string
-  ##
-  passwordSecretKey: "postgresql-password"
-
-  ## extra connection-string properties for the external database
-  ##
-  ## ____ EXAMPLE _______________
-  ##   # require SSL (only for Postgres)
-  ##   properties: "?sslmode=require"
-  ##
+  ## use this for any extra connection-string settings, e.g. ?sslmode=disable
   properties: ""

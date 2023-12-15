@@ -59,7 +59,7 @@ data:
   ## Database Configs
   ## ================
   ## database host/port
-  DATABASE_HOST: "YWlyZmxvdy1wb3N0Z3Jlc3FsLmFpcmZsb3ctbG9ncy0zLnN2Yy5jbHVzdGVyLmxvY2Fs"
+  DATABASE_HOST: "YWlyZmxvdy1wb3N0Z3Jlc3FsLmFpcmZsb3ctcHJlc2VudGF0aW9uLnN2Yy5jbHVzdGVyLmxvY2Fs"
   DATABASE_PORT: "NTQzMg=="
 
   ## database configs
@@ -81,7 +81,7 @@ data:
   ## Redis Configs
   ## ================
   ## connection string components
-  REDIS_HOST: "YWlyZmxvdy1yZWRpcy1tYXN0ZXIuYWlyZmxvdy1sb2dzLTMuc3ZjLmNsdXN0ZXIubG9jYWw="
+  REDIS_HOST: "YWlyZmxvdy1yZWRpcy1tYXN0ZXIuYWlyZmxvdy1wcmVzZW50YXRpb24uc3ZjLmNsdXN0ZXIubG9jYWw="
   REDIS_PORT: "NjM3OQ=="
   REDIS_DBNUM: "MQ=="
 
@@ -343,7 +343,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: airflow
-  namespace: airflow-logs-3
+  namespace: airflow-presentation
 ---
 # Source: airflow/charts/postgresql/templates/svc-headless.yaml
 apiVersion: v1
@@ -500,7 +500,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 4d271720d149d6befe15b09db40212e4956f39794c22b5fa906c481eee52ec29
+        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/db-migrations-script: 37898f38b90abd06081105d992362ec9e0d0015123b69e758e59031a9e6ddfc9
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -633,7 +633,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 4d271720d149d6befe15b09db40212e4956f39794c22b5fa906c481eee52ec29
+        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -850,7 +850,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 4d271720d149d6befe15b09db40212e4956f39794c22b5fa906c481eee52ec29
+        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/sync-users-script: 9733d90da42fbc9e6b1e60df36e22c87aa7c1114a86eb96bb2eae03de9a3b046
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -1019,7 +1019,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 4d271720d149d6befe15b09db40212e4956f39794c22b5fa906c481eee52ec29
+        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
@@ -1231,7 +1231,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 4d271720d149d6befe15b09db40212e4956f39794c22b5fa906c481eee52ec29
+        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/config-webserver-config: 08f3293f0aaa3978bcbcae61eee58760bcba270cf691c5ff9c788d678ba8d579
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -1572,11 +1572,13 @@ spec:
         image: "docker.io/bitnami/redis:5.0.14-debian-10-r173"
         imagePullPolicy: "IfNotPresent"
         securityContext:
-          runAsUser: 1000690000
+          runAsUser: 
         command:
         - /bin/bash
         - -c
         - |
+          useradd redis
+          chown -R redis /data
           if [[ -n $REDIS_PASSWORD_FILE ]]; then
             password_aux=`cat ${REDIS_PASSWORD_FILE}`
             export REDIS_PASSWORD=$password_aux
@@ -1682,7 +1684,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secret-config-envs: 4d271720d149d6befe15b09db40212e4956f39794c22b5fa906c481eee52ec29
+        checksum/secret-config-envs: 3ffc30fd0c6db5ad06f0daa27407b2dce75319d173804c1a44bf0e31f89cc08a
         checksum/secret-local-settings: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
