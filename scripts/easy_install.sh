@@ -61,7 +61,7 @@ helm_install(){
 setup_routes(){
 # create route for airflow
   oc create route edge \
-    --service=${APP_NAME}-webserver \
+    --service=${APP_NAME}-web \
     --insecure-policy=Redirect \
     --port=8080
 
