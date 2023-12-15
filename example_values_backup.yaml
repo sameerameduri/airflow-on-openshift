@@ -59,7 +59,7 @@ scheduler:
       cpu: 2
       memory: 2Gi
   logCleanup:
-    enabled: false
+    enabled: true
     retentionMinutes: 2
   livenessProbe:
     enabled: true
@@ -89,7 +89,7 @@ workers:
       cpu: 1
       memory: 1Gi
   logCleanup:
-    enabled: false
+    enabled: true
     retentionMinutes: 2
 
 # Airflow Triggerer Config
@@ -125,7 +125,7 @@ dags:
 
 logs:
   persistence:
-    enabled: true
+    enabled: false
     existingClaim: airflow-pvc
 
 
