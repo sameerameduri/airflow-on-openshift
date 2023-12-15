@@ -120,9 +120,6 @@ dags:
     branch: main
     subPath: dags
     syncWait: 60
-    httpSecret: "airflow-http-git-secret"
-    httpSecretUsernameKey: bmeduri-git
-    httpSecretPasswordKey: admin
   
 
 
